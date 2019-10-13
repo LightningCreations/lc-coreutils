@@ -1,3 +1,4 @@
+CFLAGS := -O3
 OBJECTS := src/echo.o
 
 all: echo
@@ -7,3 +8,6 @@ echo: $(OBJECTS)
 
 clean:
 	rm -f $(OBJECTS) echo
+
+install:
+	cp echo /bin/

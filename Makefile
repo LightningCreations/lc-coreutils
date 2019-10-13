@@ -15,3 +15,8 @@ clean:
 	make -C echo clean
 	make -C false clean
 	make -C true clean
+
+install:
+	make -C echo install
+	make -C false install
+	make -C true install
