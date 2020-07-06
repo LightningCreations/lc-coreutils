@@ -47,7 +47,7 @@ bool check(std::istream& from,char l_sep,const char* _sp,bool ignore_missing,Che
     std::string line;
     std::string_view sp{_sp};
     bool ok{true};
-    while(std::getline(from,line,l_sep)) {
+    while(!std::getline(from,line,l_sep).eof()) {
         auto lbegin = line.begin();
         auto lend = line.end();
         auto hend = line.begin()+line.find(sp);
@@ -106,8 +106,12 @@ int main(int argc,char** argv){
     bool ignore_missing{};
     FormatErrorMode err_mode{};
     CheckMode ck_mode{CheckMode::Verbose};
-    if((end = strstr(argv[0],"sum"))!=nullptr){
-        std::string_view name{argv[0],static_cast<std::string_view::size_type>(end-argv[0])};
+    std::string_view name{argv[0]};
+    if(auto pos = name.find("sum");pos!=std::string_view::npos){
+        name.substr(0,pos);
+        pos = name.find_last_of('/');
+        if(pos!=std::string_view::npos)
+            name = name.substr(pos);
         if(map.count(name))
             fn = &map[name];
     }
@@ -159,7 +163,7 @@ int main(int argc,char** argv){
                                   << "\t--help: Print this message and exit" << std::endl
                                   << "\t--version: Print version information and exit" << std::endl
                                   << "\t--algorithm <algorithm>: Selects the algorithm to use. Not available when invoked in the form <algorithm>sum" << std::endl
-                                  << "\t-: Treated as a file, not an option. If any file is -, or all files are omitted, stdin is used"
+                                  << "\t-: Treated as a file, not an option. If any file is -, or all files are omitted, stdin is used" << std::endl
                                   << "\tWhen Checking Hashes, the following options apply" << std::endl
                                   << "\t\t--ignore-missing: If a named file does not exist, silently ignore it instead of erroring" << std::endl
                                   << "\t\t--quiet: Only print status messages for mismatching files" << std::endl
