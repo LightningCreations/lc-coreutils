@@ -47,7 +47,7 @@ bool check(std::istream& from,char l_sep,const char* _sp,bool ignore_missing,Che
     std::string line;
     std::string_view sp{_sp};
     bool ok{true};
-    while(!std::getline(from,line,l_sep).eof()) {
+    while(std::getline(from,line,l_sep)) {
         auto lbegin = line.begin();
         auto lend = line.end();
         auto hend = line.begin()+line.find(sp);
@@ -119,7 +119,8 @@ int main(int argc,char** argv){
         const char* opt = *c;
         if(done_opts)
             files.emplace_back(opt);
-        else if(*opt++=='-'){
+        else if(*opt=='-'){
+            opt++;
             if(!*opt){
                 break;
             }else {
@@ -286,9 +287,14 @@ int main(int argc,char** argv){
         }
     }else for(const auto& file: files){
         if(!check) {
+            FILE* f = std::fopen(file.c_str(),"r");
+            if(!f) {
+                std::cout << "File " << file << "was not found. Exiting. "<<std::endl;
+                return 1;
+            }
             std::string out;
             out.resize(fn->outsz);
-            fn->hash_fn(out.data(), stdin);
+            fn->hash_fn(out.data(), f);
             std::cout << out << sp << file << l_sep;
         }else{
             std::ifstream fstrm{file};

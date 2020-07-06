@@ -52,7 +52,7 @@ __attribute__((const)) static uint64_t rrotate64(uint64_t val,unsigned by) {
     return val>>by | val<<(64-by);
 }
 
-void sha2_block32(uint32_t h[8],const uint8_t buf[64]){
+void sha2_block32(uint32_t h[static 8],const uint8_t buf[64]){
     static const uint32_t k[64] = {
             0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
@@ -66,7 +66,7 @@ void sha2_block32(uint32_t h[8],const uint8_t buf[64]){
     uint32_t w[64] = {0};
     to_le32(buf,w,16);
     for(size_t n=16;n<64;n++){
-        uint32_t s0 = rrotate32(w[n-15],6)^rrotate32(w[n-15],18)^rrotate32(w[n-15],3);
+        uint32_t s0 = rrotate32(w[n-15],7)^rrotate32(w[n-15],18)^rrotate32(w[n-15],3);
         uint32_t s1 = rrotate32(w[n-2],17)^rrotate32(w[n-2],19)^rrotate32(w[n-2],10);
         w[n] = w[n-16] + s0 + w[n-7] + s1;
     }
@@ -76,7 +76,7 @@ void sha2_block32(uint32_t h[8],const uint8_t buf[64]){
     for(size_t n =0;n<64;n++){
         uint32_t S1 = rrotate32(e,6)^rrotate32(e,11)^rrotate32(e,25);
         uint32_t ch = (e&f)^((~e)&g);
-        uint32_t temp1 = S1 + ch + k[n] + w[n];
+        uint32_t temp1 = i + S1 + ch + k[n] + w[n];
         uint32_t S0 = rrotate32(a,2)^rrotate32(a,13)^rrotate32(a,22);
         uint32_t maj = (a&b)^(a&c)^(b&c);
         uint32_t temp2 = S0 + maj;
@@ -156,11 +156,11 @@ void sha2_block64(uint64_t h[8],const uint8_t buf[128]){
     h[7] += i;
 }
 
-static void sha2_32(uint32_t h[8],FILE* file){
+static void sha2_32(uint32_t h[static 8],FILE* file){
     uint8_t buf[64];
     size_t totalSz=0;
     uint64_t readSz;
-    while((readSz=fread(buf,1,64,file))!=64) {
+    while((readSz=fread(buf,1,64,file))==64) {
         sha2_block32(h, buf);
         totalSz +=readSz;
     }
@@ -178,11 +178,11 @@ static void sha2_32(uint32_t h[8],FILE* file){
     sha2_block32(h,buf);
 }
 
-static void sha2_64(uint64_t h[8],FILE* file){
+static void sha2_64(uint64_t h[static 8],FILE* file){
     uint8_t buf[128];
     size_t totalSz=0;
     uint64_t readSz;
-    while((readSz=fread(buf,1,128,file))!=128) {
+    while((readSz=fread(buf,1,128,file))==128) {
         sha2_block64(h, buf);
         totalSz +=readSz;
     }
