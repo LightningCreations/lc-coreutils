@@ -1,22 +1,19 @@
-TARGETS := echo/echo false/false true/true
+TARGETS := echo/all false/all true/all hashfile/all
 
 all: $(TARGETS)
 
-echo/echo:
-	make -C echo
+echo/%:
+	$(MAKE) -C echo $*
 
-false/false:
-	make -C false
+false/%:
+	$(MAKE) -C false $*
 
-true/true:
-	make -C true
+true/%:
+	$(MAKE) -C true $*
 
-clean:
-	make -C echo clean
-	make -C false clean
-	make -C true clean
+hashfile/%:
+	$(MAKE) -C hashfile $*
 
-install:
-	make -C echo install
-	make -C false install
-	make -C true install
+clean: echo/clean false/clean true/clean hashfile/clean
+
+install: echo/install false/install true/install hashfile/install
