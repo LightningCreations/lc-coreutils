@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <cctype>
+#include <cstring>
 
 #include <unordered_map>
 #include <string_view>
