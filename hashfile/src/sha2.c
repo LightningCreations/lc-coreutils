@@ -16,8 +16,8 @@ static void to_le32(const uint8_t* buf,uint32_t* out,size_t outelems){
 
 static void to_le64(const uint8_t* buf,uint64_t* out,size_t outelems){
     for(size_t s = 0;s<outelems;s++)
-        out[s] = ((uint64_t)buf[8*s])<<56 | ((uint64_t)buf[8*s+1])<<48 | ((uint64_t)buf[8*s+2])<<40 | ((uint64_t)buf[4*s+3])<<32 //NOLINT clang-tidy go home, you're drunk.
-                | ((uint64_t)buf[8*s+4])<<24 | ((uint64_t)buf[8*s+5])<<16 | ((uint64_t)buf[8*s+3])<<8 | ((uint64_t)buf[4*s+7]); //NOLINT clang-tidy go home, you're drunk.
+        out[s] = ((uint64_t)buf[8*s])<<56 | ((uint64_t)buf[8*s+1])<<48 | ((uint64_t)buf[8*s+2])<<40 | ((uint64_t)buf[8*s+3])<<32 //NOLINT clang-tidy go home, you're drunk.
+                | ((uint64_t)buf[8*s+4])<<24 | ((uint64_t)buf[8*s+5])<<16 | ((uint64_t)buf[8*s+6])<<8 | ((uint64_t)buf[8*s+7]); //NOLINT clang-tidy go home, you're drunk.
 }
 
 static void from_le32(uint8_t* buf,const uint32_t* in,size_t inelems){
@@ -255,6 +255,19 @@ void sha512(char out[128],FILE* file){
         out[2*s] = hex[buf[s]>>4];
         out[2*s+1] = hex[buf[s]&0xf];
     }
+}
+
+uint32_t lrotate(uint32_t val,int by){
+    return (val<<by)|(val>>(32-by));
+}
+
+void sha1_block(uint32_t h[5],uint8_t block[64]){
+    uint32_t w[80];
+    to_le32(block,w,16);
+    for(size_t n = 16;n<79;n++)
+        w[n] = lrotate(w[n-3]^w[n-8]^w[n-14]^w[n-16],1);
+
+    uint32_t a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
 }
 
 void register_sha_hashes(void){
