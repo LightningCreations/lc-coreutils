@@ -170,9 +170,8 @@ static void sha2_32(uint32_t h[static 8],FILE* file){
         memset(buf+readSz,0,64-readSz);
         sha2_block32(h,buf);
         readSz = 0;
-
     }
-    memset(buf+readSz,0,56);
+    memset(buf+readSz,0,64-readSz);
     totalSz *=8;
     from_le64(buf+56,&totalSz,1);
     sha2_block32(h,buf);
@@ -192,9 +191,8 @@ static void sha2_64(uint64_t h[static 8],FILE* file){
         memset(buf+readSz,0,128-readSz);
         sha2_block64(h,buf);
         readSz = 0;
-
     }
-    memset(buf+readSz,0,120);
+    memset(buf+readSz,0,128-readSz);
     totalSz *=8;
     from_le64(buf+120,&totalSz,1);
     sha2_block64(h,buf);

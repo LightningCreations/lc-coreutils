@@ -112,7 +112,7 @@ int main(int argc,char** argv){
         name.substr(0,pos);
         pos = name.find_last_of('/');
         if(pos!=std::string_view::npos)
-            name = name.substr(pos);
+            name = name.substr(pos+1);
         if(map.count(name))
             fn = &map[name];
     }
