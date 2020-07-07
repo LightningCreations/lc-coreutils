@@ -28,7 +28,7 @@ struct KnownHashFn{
 
 static std::unordered_map<std::string_view,KnownHashFn> map{};
 
-extern"C" void register_known_hash(const char* name,size_t outSz,void(*apply)(char[outSz],std::FILE*)){
+extern"C" void register_known_hash(const char* name,size_t outSz,void(*apply)(char[],std::FILE*)){
     map.emplace(name,KnownHashFn{name,outSz,apply});
 }
 
