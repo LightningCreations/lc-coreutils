@@ -73,7 +73,7 @@ bool check(std::istream& from,char l_sep,const char* _sp,bool ignore_missing,Che
                 std::cout << &*fbegin << ": Hash Mismatch" << std::endl;
             ok = false;
         }
-        if(chkmd==CheckMode::Verbose)
+        else if(chkmd==CheckMode::Verbose)
             std::cout << &*fbegin << ": OK" << std::endl;
     }
     return ok;
@@ -299,6 +299,10 @@ int main(int argc,char** argv){
             std::cout << out << sp << file << l_sep;
         }else{
             std::ifstream fstrm{file};
+            if(!fstrm){
+                std::cout << "File " << file << "was not found" << std::endl;
+                return 1;
+            }
             if(!::check(fstrm,l_sep,sp,ignore_missing,ck_mode,fn))
                 return 1;
             else

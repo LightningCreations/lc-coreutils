@@ -45,11 +45,11 @@ static void from_le64(uint8_t* buf,const uint64_t* in,size_t inelems){
 }
 
 __attribute__((const)) static uint32_t rrotate32(uint32_t val,unsigned by) {
-    return val>>by | val<<(32-by);
+    return (val>>by) | (val<<(32-by));
 }
 
 __attribute__((const)) static uint64_t rrotate64(uint64_t val,unsigned by) {
-    return val>>by | val<<(64-by);
+    return (val>>by) | (val<<(64-by));
 }
 
 void sha2_block32(uint32_t h[static 8],const uint8_t buf[64]){
@@ -66,8 +66,8 @@ void sha2_block32(uint32_t h[static 8],const uint8_t buf[64]){
     uint32_t w[64] = {0};
     to_le32(buf,w,16);
     for(size_t n=16;n<64;n++){
-        uint32_t s0 = rrotate32(w[n-15],7)^rrotate32(w[n-15],18)^rrotate32(w[n-15],3);
-        uint32_t s1 = rrotate32(w[n-2],17)^rrotate32(w[n-2],19)^rrotate32(w[n-2],10);
+        uint32_t s0 = rrotate32(w[n-15],7)^rrotate32(w[n-15],18)^(w[n-15]>>3);
+        uint32_t s1 = rrotate32(w[n-2],17)^rrotate32(w[n-2],19)^(w[n-2]>>10);
         w[n] = w[n-16] + s0 + w[n-7] + s1;
     }
 
@@ -122,8 +122,8 @@ void sha2_block64(uint64_t h[8],const uint8_t buf[128]){
     to_le64(buf,w,16);
 
     for(size_t n=16;n<80;n++){
-        uint64_t s0 = rrotate64(w[n-15],1)^rrotate64(w[n-15],8)^rrotate64(w[n-15],7);
-        uint64_t s1 = rrotate64(w[n-2],19)^rrotate64(w[n-2],61)^rrotate64(w[n-2],6);
+        uint64_t s0 = rrotate64(w[n-15],1)^rrotate64(w[n-15],8)^(w[n-15]>>7);
+        uint64_t s1 = rrotate64(w[n-2],19)^rrotate64(w[n-2],61)^(w[n-2]>>6);
         w[n] = w[n-16] + s0 + w[n-7] + s1;
     }
 
@@ -216,8 +216,8 @@ void sha224(char out[56],FILE* file){
 }
 void sha256(char out[64],FILE* file){
     uint32_t h[] = {
-            0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,
-            0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
+            0x6a09e667UL,0xbb67ae85UL,0x3c6ef372,0xa54ff53aUL,
+            0x510e527fUL,0x9b05688cUL,0x1f83d9abUL,0x5be0cd19UL
     };
     sha2_32(h,file);
     uint8_t buf[32];
@@ -230,8 +230,8 @@ void sha256(char out[64],FILE* file){
 }
 void sha384(char out[96],FILE* file){
     uint64_t h[] = {
-            0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939,
-            0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4
+            0xcbbb9d5dc1059ed8ULL, 0x629a292a367cd507ULL, 0x9159015a3070dd17ULL, 0x152fecd8f70e5939ULL,
+            0x67332667ffc00b31ULL, 0x8eb44a8768581511ULL, 0xdb0c2e0d64f98fa7ULL, 0x47b5481dbefa4fa4ULL
     };
     sha2_64(h,file);
     uint8_t buf[48];
@@ -244,8 +244,8 @@ void sha384(char out[96],FILE* file){
 }
 void sha512(char out[128],FILE* file){
     uint64_t h[] = {
-            0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
-            0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
+            0x6a09e667f3bcc908ULL, 0xbb67ae8584caa73bULL, 0x3c6ef372fe94f82bULL, 0xa54ff53a5f1d36f1ULL,
+            0x510e527fade682d1ULL, 0x9b05688c2b3e6c1fULL, 0x1f83d9abfb41bd6bULL, 0x5be0cd19137e2179ULL
     };
     sha2_64(h,file);
     uint8_t buf[64];
@@ -268,6 +268,67 @@ void sha1_block(uint32_t h[5],uint8_t block[64]){
         w[n] = lrotate(w[n-3]^w[n-8]^w[n-14]^w[n-16],1);
 
     uint32_t a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
+
+    for(size_t n = 0; n<79;n++){
+        uint32_t f,k;
+        if(n<19){
+            f = (b&c)|((~b)&d);
+            k = 0x5A827999;
+        }else if(n<39){
+            f = b^c^d;
+            k = 0x6ED9EBA1;
+        }else if(n<59){
+            f = (b&c)|(b&d)|(c&d);
+            k = 0x8F1BBCDC;
+        }else {
+            f = b^c^d;
+            k = 0xCA62C1D6;
+        }
+        uint32_t temp = lrotate(a,5) + f + e + k + w[n];
+        e = d;
+        d = c;
+        c = lrotate(b,30);
+        b = a;
+        a = temp;
+    }
+    h[0] += a;
+    h[1] += b;
+    h[2] += c;
+    h[3] += d;
+    h[4] += e;
+}
+
+void sha1(char out[40],FILE* file){
+    uint32_t h[5] = {
+            0x67452301,
+            0xEFCDAB89,
+            0x98BADCFE,
+            0x10325476,
+            0xC3D2E1F0
+    };
+    uint8_t buf[64];
+    size_t totalSz=0;
+    uint64_t readSz;
+    while((readSz=fread(buf,1,64,file))==64) {
+        sha1_block(h, buf);
+        totalSz +=readSz;
+    }
+    totalSz += readSz;
+    buf[readSz++] =0x80;
+    if(64-readSz<8){
+        memset(buf+readSz,0,64-readSz);
+        sha1_block(h,buf);
+        readSz = 0;
+    }
+    memset(buf+readSz,0,64-readSz);
+    totalSz *=8;
+    from_le64(buf+56,&totalSz,1);
+    sha1_block(h,buf);
+    from_le32(buf,h,5);
+    for(size_t s = 0;s<sizeof(buf);s++){
+        out[2*s] = hex[buf[s]>>4];
+        out[2*s+1] = hex[buf[s]&0xf];
+    }
 }
 
 void register_sha_hashes(void){
@@ -275,5 +336,6 @@ void register_sha_hashes(void){
     register_known_hash("sha256",64,sha256);
     register_known_hash("sha384",96,sha384);
     register_known_hash("sha512",128,sha512);
+    register_known_hash("sha1",40,sha1);
 }
 
