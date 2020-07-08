@@ -132,7 +132,7 @@ void sha2_block64(uint64_t h[8],const uint8_t buf[128]){
     for(size_t n =0;n<80;n++){
         uint64_t S1 = rrotate64(e,14)^rrotate64(e,18)^rrotate64(e,41);
         uint64_t ch = (e&f)^((~e)&g);
-        uint64_t temp1 = S1 + ch + k[n] + w[n];
+        uint64_t temp1 = i + S1 + ch + k[n] + w[n];
         uint64_t S0 = rrotate64(a,28)^rrotate64(a,34)^rrotate64(a,39);
         uint64_t maj = (a&b)^(a&c)^(b&c);
         uint64_t temp2 = S0 + maj;
