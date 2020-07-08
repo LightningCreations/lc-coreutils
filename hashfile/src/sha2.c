@@ -264,7 +264,7 @@ uint32_t lrotate(uint32_t val,int by){
 void sha1_block(uint32_t h[5],uint8_t block[64]){
     uint32_t w[80];
     to_le32(block,w,16);
-    for(size_t i = 16;i<79;i++)
+    for(size_t i = 16;i<80;i++)
         w[i] = lrotate(w[i-3]^w[i-8]^w[i-14]^w[i-16],1);
 
     uint32_t a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
