@@ -8,49 +8,10 @@
 #include <string.h>
 
 #include "select_hash.h"
+#include "common.h"
 
-static void to_le32(const uint8_t* buf,uint32_t* out,size_t outelems){
-    for(size_t s = 0;s<outelems;s++)
-        out[s] = (buf[4*s])<<24 | (buf[4*s+1])<<16 | (buf[4*s+2])<<8 | (buf[4*s+3]); //NOLINT clang-tidy go home, you're drunk.
-}
 
-static void to_le64(const uint8_t* buf,uint64_t* out,size_t outelems){
-    for(size_t s = 0;s<outelems;s++)
-        out[s] = ((uint64_t)buf[8*s])<<56 | ((uint64_t)buf[8*s+1])<<48 | ((uint64_t)buf[8*s+2])<<40 | ((uint64_t)buf[8*s+3])<<32 //NOLINT clang-tidy go home, you're drunk.
-                | ((uint64_t)buf[8*s+4])<<24 | ((uint64_t)buf[8*s+5])<<16 | ((uint64_t)buf[8*s+6])<<8 | ((uint64_t)buf[8*s+7]); //NOLINT clang-tidy go home, you're drunk.
-}
 
-static void from_le32(uint8_t* buf,const uint32_t* in,size_t inelems){
-    for(size_t s = 0;s<inelems;s++){
-        uint32_t b = in[s];
-        buf[4*s]   = b>>24;
-        buf[4*s+1] = b>>16;
-        buf[4*s+2] = b>>8;
-        buf[4*s+3] = b;
-    }
-}
-
-static void from_le64(uint8_t* buf,const uint64_t* in,size_t inelems){
-    for(size_t s = 0;s<inelems;s++){
-        uint64_t b = in[s];
-        buf[8*s]   = b>>56;
-        buf[8*s+1] = b>>48;
-        buf[8*s+2] = b>>40;
-        buf[8*s+3] = b>>32;
-        buf[8*s+4] = b>>24;
-        buf[8*s+5] = b>>16;
-        buf[8*s+6] = b>>8;
-        buf[8*s+7] = b;
-    }
-}
-
-__attribute__((const)) static uint32_t rrotate32(uint32_t val,unsigned by) {
-    return (val>>by) | (val<<(32-by));
-}
-
-__attribute__((const)) static uint64_t rrotate64(uint64_t val,unsigned by) {
-    return (val>>by) | (val<<(64-by));
-}
 
 void sha2_block32(uint32_t h[static 8],const uint8_t buf[64]){
     static const uint32_t k[64] = {
@@ -156,116 +117,43 @@ void sha2_block64(uint64_t h[8],const uint8_t buf[128]){
     h[7] += i;
 }
 
-static void sha2_32(uint32_t h[static 8],FILE* file){
-    uint8_t buf[64];
-    size_t totalSz=0;
-    uint64_t readSz;
-    while((readSz=fread(buf,1,64,file))==64) {
-        sha2_block32(h, buf);
-        totalSz +=readSz;
-    }
-    totalSz += readSz;
-    buf[readSz++] =0x80;
-    if(64-readSz<8){
-        memset(buf+readSz,0,64-readSz);
-        sha2_block32(h,buf);
-        readSz = 0;
-    }
-    memset(buf+readSz,0,64-readSz);
-    totalSz *=8;
-    from_le64(buf+56,&totalSz,1);
-    sha2_block32(h,buf);
-}
-
-static void sha2_64(uint64_t h[static 8],FILE* file){
-    uint8_t buf[128];
-    size_t totalSz=0;
-    uint64_t readSz;
-    while((readSz=fread(buf,1,128,file))==128) {
-        sha2_block64(h, buf);
-        totalSz +=readSz;
-    }
-    totalSz += readSz;
-    buf[readSz++] =0x80;
-    if(128-readSz<8){
-        memset(buf+readSz,0,128-readSz);
-        sha2_block64(h,buf);
-        readSz = 0;
-    }
-    memset(buf+readSz,0,128-readSz);
-    totalSz *=8;
-    from_le64(buf+120,&totalSz,1);
-    sha2_block64(h,buf);
-}
-
-static const char hex[] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
 void sha224(char out[56],FILE* file){
     uint32_t h[] = {
             0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939,
             0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4
     };
-    sha2_32(h,file);
-    uint8_t buf[28];
-    from_le32(buf,h,8);
-
-    for(size_t s = 0;s<sizeof(buf);s++){
-        out[2*s] = hex[buf[s]>>4];
-        out[2*s+1] = hex[buf[s]&0xf];
-    }
+    do_file_hash32(h,28,out,64,file,sha2_block32);
 }
 void sha256(char out[64],FILE* file){
     uint32_t h[] = {
             0x6a09e667UL,0xbb67ae85UL,0x3c6ef372,0xa54ff53aUL,
             0x510e527fUL,0x9b05688cUL,0x1f83d9abUL,0x5be0cd19UL
     };
-    sha2_32(h,file);
-    uint8_t buf[32];
-    from_le32(buf,h,8);
-
-    for(size_t s = 0;s<sizeof(buf);s++){
-        out[2*s] = hex[buf[s]>>4];
-        out[2*s+1] = hex[buf[s]&0xf];
-    }
+    do_file_hash32(h,32,out,64,file,sha2_block32);
 }
 void sha384(char out[96],FILE* file){
     uint64_t h[] = {
             0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939,
             0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4
     };
-    sha2_64(h,file);
-    uint8_t buf[48];
-    from_le64(buf,h,6);
-
-    for(size_t s = 0;s<sizeof(buf);s++){
-        out[2*s] = hex[buf[s]>>4];
-        out[2*s+1] = hex[buf[s]&0xf];
-    }
+    do_file_hash64(h,48,out,128,file,sha2_block64);
 }
 void sha512(char out[128],FILE* file){
     uint64_t h[] = {
             0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
             0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
     };
-    sha2_64(h,file);
-    uint8_t buf[64];
-    from_le64(buf,h,8);
-
-    for(size_t s = 0;s<sizeof(buf);s++){
-        out[2*s] = hex[buf[s]>>4];
-        out[2*s+1] = hex[buf[s]&0xf];
-    }
+    do_file_hash64(h,64,out,128,file,sha2_block64);
 }
 
-uint32_t lrotate(uint32_t val,int by){
-    return (val<<by)|(val>>(32-by));
-}
 
-void sha1_block(uint32_t h[5],uint8_t block[64]){
+
+void sha1_block(uint32_t h[5],const uint8_t block[64]){
     uint32_t w[80];
     to_le32(block,w,16);
     for(size_t i = 16;i<80;i++)
-        w[i] = lrotate(w[i-3]^w[i-8]^w[i-14]^w[i-16],1);
+        w[i] = lrotate32(w[i-3]^w[i-8]^w[i-14]^w[i-16],1);
 
     uint32_t a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
 
@@ -284,10 +172,10 @@ void sha1_block(uint32_t h[5],uint8_t block[64]){
             f = b^c^d;
             k = 0xCA62C1D6;
         }
-        uint32_t temp = lrotate(a,5) + f + e + k + w[n];
+        uint32_t temp = lrotate32(a,5) + f + e + k + w[n];
         e = d;
         d = c;
-        c = lrotate(b,30);
+        c = lrotate32(b,30);
         b = a;
         a = temp;
     }
@@ -306,31 +194,7 @@ void sha1(char out[40],FILE* file){
             0x10325476,
             0xC3D2E1F0
     };
-    uint8_t buf[64];
-    size_t totalSz=0;
-    uint64_t readSz;
-    while((readSz=fread(buf,1,64,file))==64) {
-        sha1_block(h, buf);
-        totalSz +=readSz;
-    }
-    totalSz += readSz;
-    buf[readSz++] =0x80;
-    if(64-readSz<8){
-        memset(buf+readSz,0,64-readSz);
-        sha1_block(h,buf);
-        readSz = 0;
-    }
-    memset(buf+readSz,0,64-readSz);
-    totalSz *=8;
-    from_le64(buf+56,&totalSz,1);
-
-    sha1_block(h,buf);
-    uint8_t buf1[20];
-    from_le32(buf1,h,5);
-    for(size_t s = 0;s<sizeof(buf1);s++){
-        out[2*s] = hex[buf1[s]>>4];
-        out[2*s+1] = hex[buf1[s]&0xf];
-    }
+    do_file_hash32(h,20,out,64,file,sha1_block);
 }
 
 void register_sha_hashes(void){
