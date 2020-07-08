@@ -264,20 +264,20 @@ uint32_t lrotate(uint32_t val,int by){
 void sha1_block(uint32_t h[5],uint8_t block[64]){
     uint32_t w[80];
     to_le32(block,w,16);
-    for(size_t n = 16;n<79;n++)
-        w[n] = lrotate(w[n-3]^w[n-8]^w[n-14]^w[n-16],1);
+    for(size_t i = 16;i<79;i++)
+        w[i] = lrotate(w[i-3]^w[i-8]^w[i-14]^w[i-16],1);
 
     uint32_t a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
 
-    for(size_t n = 0; n<79;n++){
+    for(size_t n = 0; n<80;n++){
         uint32_t f,k;
-        if(n<19){
+        if(n<=19){
             f = (b&c)|((~b)&d);
             k = 0x5A827999;
-        }else if(n<39){
+        }else if(n<=39){
             f = b^c^d;
             k = 0x6ED9EBA1;
-        }else if(n<59){
+        }else if(n<=59){
             f = (b&c)|(b&d)|(c&d);
             k = 0x8F1BBCDC;
         }else {
@@ -323,11 +323,13 @@ void sha1(char out[40],FILE* file){
     memset(buf+readSz,0,64-readSz);
     totalSz *=8;
     from_le64(buf+56,&totalSz,1);
+
     sha1_block(h,buf);
-    from_le32(buf,h,5);
-    for(size_t s = 0;s<sizeof(buf);s++){
-        out[2*s] = hex[buf[s]>>4];
-        out[2*s+1] = hex[buf[s]&0xf];
+    uint8_t buf1[20];
+    from_le32(buf1,h,5);
+    for(size_t s = 0;s<sizeof(buf1);s++){
+        out[2*s] = hex[buf1[s]>>4];
+        out[2*s+1] = hex[buf1[s]&0xf];
     }
 }
 
