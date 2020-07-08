@@ -109,3 +109,30 @@ void do_file_hash32(uint32_t h[],size_t out_sz,char out[],size_t block_sz,FILE* 
         out[2*s+1] = hex[buf1[s]&0xf];
     }
 }
+
+void do_file_hash32_le(uint32_t h[],size_t out_sz,char out[],size_t block_sz,FILE* file,void(*update)(uint32_t h[],const uint8_t buf[])){
+    uint8_t buf [block_sz];
+    size_t totalSz=0;
+    uint64_t readSz;
+    while((readSz=fread(buf,1,block_sz,file))==block_sz) {
+        update(h, buf);
+        totalSz +=readSz;
+    }
+    totalSz += readSz;
+    buf[readSz++] =0x80;
+    if(block_sz-readSz<8){
+        memset(buf+readSz,0,block_sz-readSz);
+        update(h,buf);
+        readSz = 0;
+    }
+    memset(buf+readSz,0,block_sz-readSz);
+    totalSz *=8;
+    memcpy(buf+(block_sz-8),&totalSz,4);
+    update(h,buf);
+    uint8_t buf1[out_sz];
+    memcpy(buf1,h,out_sz);
+    for(size_t s = 0;s<out_sz;s++){
+        out[2*s] = hex[buf1[s]>>4];
+        out[2*s+1] = hex[buf1[s]&0xf];
+    }
+}

@@ -95,7 +95,6 @@ void hash(const std::string& fname,const char* sp,bool escape_fname,const KnownH
 }
 
 int main(int argc,char** argv){
-    register_sha_hashes();
     char* end;
     const KnownHashFn* fn = nullptr;
     std::vector<std::string> files{};

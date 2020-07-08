@@ -11,6 +11,7 @@
 
 
 void do_file_hash32(uint32_t h[],size_t out_sz,char out[],size_t block_sz,FILE* f,void(*update)(uint32_t h[],const uint8_t buf[]));
+void do_file_hash32_le(uint32_t h[],size_t out_sz,char out[],size_t block_sz,FILE* f,void(*update)(uint32_t h[],const uint8_t buf[]));
 void do_file_hash64(uint64_t h[],size_t out_sz,char out[],size_t block_sz, FILE* f,void(*update)(uint64_t h[],const uint8_t buf[]));
 
 void to_le32(const uint8_t* buf,uint32_t* out,size_t outelems);

@@ -197,7 +197,7 @@ void sha1(char out[40],FILE* file){
     do_file_hash32(h,20,out,64,file,sha1_block);
 }
 
-void register_sha_hashes(void){
+__attribute__((constructor)) static void register_sha_hashes(void){
     register_known_hash("sha224",56,sha224);
     register_known_hash("sha256",64,sha256);
     register_known_hash("sha384",96,sha384);

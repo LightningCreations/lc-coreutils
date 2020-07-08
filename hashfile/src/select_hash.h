@@ -12,10 +12,7 @@
 extern"C" {
 #endif
 
-
 void register_known_hash(const char *name, size_t outSz, void(*apply)(char[], FILE *));
-
-void register_sha_hashes(void);
 
 #ifdef __cplusplus
 };
