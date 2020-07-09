@@ -70,6 +70,5 @@ int main(int argc,char** argv){
         argv++;
         execvp(prg,argv);
         perror("Could not execute program");
-        return 1; // If execvp returns, an error has occured, so return 1;
-    }
+        return 1; /* If execvp returns, an error has occured, so return 1;*/ }
 }
