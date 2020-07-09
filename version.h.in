@@ -1,0 +1,10 @@
+//
+// Created by chorm on 2020-07-09.
+//
+
+#ifndef LCNIX_VERSION_H_IN_H
+#define LCNIX_VERSION_H_IN_H
+
+#cmakedefine LCNIX_COREUTILS_VERSION "@LCNIX_COREUTILS_VERSION@"
+
+#endif //LCNIX_VERSION_H_IN_H
