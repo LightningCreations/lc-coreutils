@@ -26,10 +26,13 @@ struct KnownHashFn{
     void(*hash_fn)(char* out,std::FILE* f);
 };
 
-static std::unordered_map<std::string_view,KnownHashFn> map{};
+static std::unordered_map<std::string_view,KnownHashFn>& map(){
+    static std::unordered_map<std::string_view,KnownHashFn> _map{};
+    return _map;
+}
 
 extern"C" void register_known_hash(const char* name,size_t outSz,void(*apply)(char[],std::FILE*)){
-    map.emplace(name,KnownHashFn{name,outSz,apply});
+    map().emplace(name,KnownHashFn{name,outSz,apply});
 }
 
 enum class FormatErrorMode{
@@ -108,12 +111,12 @@ int main(int argc,char** argv){
     CheckMode ck_mode{CheckMode::Verbose};
     std::string_view name{argv[0]};
     if(auto pos = name.find("sum");pos!=std::string_view::npos){
-        name.substr(0,pos);
+        name = name.substr(0,pos);
         pos = name.find_last_of('/');
         if(pos!=std::string_view::npos)
             name = name.substr(pos+1);
-        if(map.count(name))
-            fn = &map[name];
+        if(map().count(name))
+            fn = &map()[name];
     }
     for(char** c = argv+1;c<(argv+argc);c++){
         const char* opt = *c;
@@ -203,8 +206,8 @@ int main(int argc,char** argv){
                             std::cout << "Cannot select algorithm: "<< algorithm << fn->name << " is already selected" << std::endl;
                             return 1;
                         }
-                        if(map.count(algorithm))
-                            fn = &map[algorithm];
+                        if(map().count(algorithm))
+                            fn = &map()[algorithm];
                         else{
                             std::cout << "Unknown Algorithm: " << algorithm << std::endl;
                             return 1;
