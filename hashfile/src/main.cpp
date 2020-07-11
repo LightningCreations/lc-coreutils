@@ -151,13 +151,7 @@ int main(int argc,char** argv){
                     else if(strcmp(opt,"warn")==0)
                         err_mode = FormatErrorMode::Warn;
                     else if(strcmp(opt,"version")==0){
-                        std::cout << "Lightning Creations " << argv[0] << std::endl
-                            << "Part of lc-coreutils version: " LCNIX_COREUTILS_VERSION ", included in lcnix" << std::endl
-                            << "This program is a free software, distributed under the Terms of the GNU General Public License v3, or (at your option) any later version" << std::endl
-                            << "This program is provided on an AS IS Basis, without any warranty of any kind, any implied warranties which may otherwise apply" << std::endl
-                            << "If you have not recieved a copy of the GNU General Public License along with this program, you may view it on the GNU Website" << std::endl
-                            << "\thttps://www.gnu.org/licenses/gpl-3.0.en.html (html)" << std::endl
-                            << "\thttps://www.gnu.org/licenses/gpl-3.0.txt (Plain Text)" << std::endl;
+                        printf(VERSION,argv[0]);
                         return 0;
                     }else if(strcmp(opt,"help")==0){
                         std::cout << "Usage: " << argv[0] << "[OPTIONS]... [FILES]..." << std::endl

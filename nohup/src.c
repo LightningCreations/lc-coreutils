@@ -34,12 +34,6 @@ int main(int argc,char** argv){
             if(strcmp(opt,"help")==0)
                 print_help(0,argv[0]);
             else if(strcmp(opt,"version")==0){
-                static const char VERSION[] = {
-                        "Lightning Creations %s\n"
-                        "Part of lc-coreutils " LCNIX_COREUTILS_VERSION " (part of lcnix)\n"
-                        "This program is a free software, released under the terms of the GNU GPLv3+\n"
-                        "This program is provided on an AS-IS basis, without any warranty\n"
-                };
                 printf(VERSION,argv[0]);
                 return 0;
             }
