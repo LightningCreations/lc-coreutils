@@ -28,6 +28,6 @@ endif()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 foreach(coreutil ${LCNIX_ENABLE_COREUTILS})
-    message(STATUS "LCNix Coreutils: Building ${coreutil}")
+    message(STATUS "LCnix Coreutils: Building ${coreutil}")
     add_subdirectory(${coreutil})
 endforeach()
