@@ -1,0 +1,20 @@
+#!/bin/bash
+
+test_dir=$(dirname $0)
+
+for i in {0..128}
+do
+  $1 ${test_dir}/a${i} a${i}
+  code=$?
+  if [ $code -ne 1 ]
+  then
+    exit $code
+  fi
+
+  if [ ! \( ${test_dir}/a${i} -ef a${i} \) ]
+  then
+    exit 1
+  fi
+  rm -f a${i}
+done
+
