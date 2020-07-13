@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
 project(lc-coreutils C)
 
-set(LCNIX_ENABLE_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd" CACHE STRING "Selects the list of coreutils to build and install")
+set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd")
+
+set(LCNIX_ENABLE_COREUTILS "all" CACHE STRING "Selects the list of coreutils to build and install")
+
+if(LCNIX_ENABLE_COREUTILS STREQUAL "all")
+    set(LCNIX_ENABLE_COREUTILS ${LCNIX_KNOWN_COREUTILS})
+endif()
 
 include(GNUInstallDirs)
 
