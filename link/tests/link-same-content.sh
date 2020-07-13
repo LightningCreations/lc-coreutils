@@ -6,7 +6,7 @@ for i in {0..128}
 do
   $1 ${test_dir}/a${i} a${i}
   code=$?
-  if [ $code -ne 1 ]
+  if [ $code -ne 0 ]
   then
     exit $code
   fi

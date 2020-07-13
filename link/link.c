@@ -28,8 +28,8 @@ int main(int argc,char** argv){
             return 1;
         }
     }else if(argc==3){
-        if(link(argv[2],argv[1])<0)
-            error(1,errno,"Could not create link %s to %s",argv[2],argv[1]);
+        if(link(argv[1],argv[2])<0)
+            error(1,errno,"Could not create link %s to %s",argv[1],argv[2]);
         return 0;
     }else{
         printf(HELP,argv[0]);
