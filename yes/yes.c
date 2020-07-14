@@ -15,13 +15,13 @@ int main(int argc,char** argv){
             "Options:\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n";
-    if(strcmp(argv[1],"--version")==0)
+    if(argv[1]&&strcmp(argv[1],"--version")==0)
         printf(VERSION,"yes");
-    else if(strcmp(argv[1],"--help")==0)
+    else if(argv[1]&&strcmp(argv[1],"--help")==0)
         printf(HELP,argv[0],argv[0]);
     else{
         for(;;)
-            if(argc==1)
+            if(argc<2)
                 puts("y");
             else {
                 for (char **p = argv + 1; *p; p++)
