@@ -1,5 +1,7 @@
 add_executable(false src/false.c)
 
+target_link_libraries(false PRIVATE lc-coreutils-version)
+
 install(TARGETS false)
 
 if(LCNIX_COREUTILS_RUNTESTS)

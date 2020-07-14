@@ -17,6 +17,8 @@ endif()
 
 add_executable(hashfile src/main.cpp src/sha2.c src/select_hash.h src/common.h src/hcommon.c src/md5.c)
 
+target_link_libraries(hashfile PRIVATE lc-coreutils-version)
+
 install(TARGETS hashfile)
 
 foreach(hashsum_alias ${LCNIX_COREUTILS_HASHSUM_ALIASES})

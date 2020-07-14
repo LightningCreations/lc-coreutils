@@ -27,6 +27,10 @@ endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
+add_library(lc-coreutils-version INTERFACE)
+
+target_sources(lc-coreutils-version INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+
 foreach(coreutil ${LCNIX_ENABLE_COREUTILS})
     message(STATUS "LCnix Coreutils: Building ${coreutil}")
     add_subdirectory(${coreutil})

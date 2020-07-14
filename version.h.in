@@ -9,6 +9,7 @@
 
 #define VERSION "Lightning Creations %s\n" \
 "Part of lc-coreutils " LCNIX_COREUTILS_VERSION " (part of lcnix)\n" \
+"Copyright (C) 2020 Lightning Creations\n"\
 "This program is a free software, released under the terms of the GNU GPLv3+\n" \
 "This program is provided on an AS-IS basis, without any warranty\n"
 
