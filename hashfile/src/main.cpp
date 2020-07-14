@@ -154,22 +154,22 @@ int main(int argc,char** argv){
                         printf(VERSION,"hashfile");
                         return 0;
                     }else if(strcmp(opt,"help")==0){
-                        std::cout << "Usage: " << argv[0] << "[OPTIONS]... [FILES]..." << std::endl
-                                  << "Valid Options: " << std::endl
+                        std::cout << "Usage: " << argv[0] << " [OPTIONS]... [FILES]..." << std::endl
+                                  << "Options: " << std::endl
                                   << "\t--binary, -b: Output or read the hashes in binary format" << std::endl
-                                  << "\t--text, -t: Undoes the effect of --binary" << std::endl
-                                  << "\t--zero, -z: Outputs a NUL character between lines, instead of a newline." << std::endl
-                                  << "\t--check, -c: Reads hashes from the given files, and verifies files in the current directory, instead of hashing the input files. " << std::endl
+                                  << "\t--text, -t: Output or read the hashes in text format (default)" << std::endl
+                                  << "\t--zero, -z: Outputs a NUL character between lines, instead of a newline" << std::endl
+                                  << "\t--check, -c: Reads hashes from the given files, and verifies files in the current directory, instead of hashing the input files " << std::endl
                                   << "\t--help: Print this message and exit" << std::endl
                                   << "\t--version: Print version information and exit" << std::endl
                                   << "\t--algorithm <algorithm>: Selects the algorithm to use. Not available when invoked in the form <algorithm>sum" << std::endl
-                                  << "\t-: Treated as a file, not an option. If any file is -, or all files are omitted, stdin is used" << std::endl
-                                  << "\tWhen Checking Hashes, the following options apply" << std::endl
-                                  << "\t\t--ignore-missing: If a named file does not exist, silently ignore it instead of erroring" << std::endl
-                                  << "\t\t--quiet: Only print status messages for mismatching files" << std::endl
-                                  << "\t\t--status: Do not print status messages" << std::endl
-                                  << "\t\t--warn, -w: Warn if an input file is in an invalid format" << std::endl
-                                  << "\t\t--strict: Fail if an input file is in an invalid format" << std::endl;
+                                  << "\t-: Treated as a file, not an option. If any file is -, or all files are omitted, stdin is used" << std::endl << std::endl
+                                  << "When Checking Hashes, the following options apply" << std::endl << std::endl
+                                  << "\t--ignore-missing: If a named file does not exist, silently ignore it instead of erroring" << std::endl
+                                  << "\t--quiet: Only print status messages for mismatching files" << std::endl
+                                  << "\t--status: Do not print status messages" << std::endl
+                                  << "\t--warn, -w: Warn if an input file is in an invalid format" << std::endl
+                                  << "\t--strict: Fail if an input file is in an invalid format" << std::endl;
                         return 0;
                     }else if(strncmp(opt,"algorithm",9)==0){
                         const char* algorithm{};

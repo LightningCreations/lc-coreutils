@@ -12,7 +12,7 @@
 int main(int argc,char** argv){
     static const char* HELP =
             "Usage: %s FILE1 FILE2\n"
-            "%s OPTION\n"
+            "\tor: %s OPTION\n"
             "Creates a hard link from FILE2 to FILE1\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n"

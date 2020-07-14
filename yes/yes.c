@@ -9,9 +9,8 @@
 
 int main(int argc,char** argv){
     static const char* HELP =
-            "Usage: "
-            "%s [STRINGS...]\n"
-            "%s OPTION\n"
+            "Usage: %s [STRINGS...]\n"
+            "\tor: %s OPTION\n"
             "Repeatedly outputs a line with STRINGS... or a single 'y' when omitted\n"
             "Options:\n"
             "\t--version: Prints version information and exits\n"

@@ -14,7 +14,7 @@
 _Noreturn void print_help(int code,const char* prg_name){
     static const char HELP[] = {
             "Usage: %s COMMAND [ARGS]\n"
-            "%s OPTION\n"
+            "\tor: %s OPTION\n"
             "Runs the given command ignoring hangup requests\n"
             "Accepted Options:\n"
             "\t--help: Prints this help and exits\n"
