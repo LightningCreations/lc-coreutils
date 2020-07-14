@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(lc-coreutils C)
 
-set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd;link")
+set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd;link;yes")
 
 set(LCNIX_ENABLE_COREUTILS "all" CACHE STRING "Selects the list of coreutils to build and install")
 

@@ -91,7 +91,9 @@ All tests should pass with the following *known* issues:
 * The link test suite, as well as the ln tests which mention `hard` links (ie. `ln-hard-target`)
  will fail on filesystems which do not support hard links (such as FAT32).
 * Most of the above tests will fail if the source and build directories are on different file systems.  
-* The nohup testsuite hangs indefinately, and is presently disabled. 
+* The nohup testsuite hangs indefinately, and is presently disabled.
+* 3 of the mkdir tests are checking for proper handling of the `--mode` (mkdir-mode-short, mkdir-mode-long, and mkdir-mode-suid). 
+ These tests will likely fail on a filesystem which doesn't have permissions, may fail on NTFS (mkdir-mode-suid will likely fail on ntfs).
 
 Beyond the known failures, 
  any test suite failure is a bug and should be reported to the lc-coreutils issue tracker,
