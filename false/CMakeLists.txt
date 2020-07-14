@@ -9,3 +9,5 @@ if(LCNIX_COREUTILS_RUNTESTS)
             COMMAND false)
     set_property(TEST false PROPERTY WILL_FAIL ON)
 endif()
+
+add_manual(false "Does nothing, unsuccesfully" 1)

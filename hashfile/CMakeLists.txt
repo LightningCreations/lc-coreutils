@@ -38,3 +38,5 @@ endforeach()
 if(LCNIX_COREUTILS_RUNTESTS)
     add_subdirectory(tests)
 endif()
+
+add_manual(hashfile "Computes or checks various hashes over a list of files" 1)

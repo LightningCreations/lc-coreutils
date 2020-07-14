@@ -151,7 +151,7 @@ int main(int argc,char** argv){
                     else if(strcmp(opt,"warn")==0)
                         err_mode = FormatErrorMode::Warn;
                     else if(strcmp(opt,"version")==0){
-                        printf(VERSION,argv[0]);
+                        printf(VERSION,"hashfile");
                         return 0;
                     }else if(strcmp(opt,"help")==0){
                         std::cout << "Usage: " << argv[0] << "[OPTIONS]... [FILES]..." << std::endl

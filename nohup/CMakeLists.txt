@@ -10,3 +10,5 @@ if(LCNIX_COREUTILS_RUNTESTS)
 endif()
 install(TARGETS nohup)
 
+add_manual(nohup "Runs a program, ignoring Hangup Signals" 1)
+

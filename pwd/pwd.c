@@ -35,7 +35,7 @@ int main(int argc,char** argv){
             else if(*arg=='P')
                 use_env = 0;
             else if(strcmp(arg,"-version")==0){
-                printf(VERSION,prg_name);
+                printf(VERSION,"pwd");
                 return 0;
             }else if(strcmp(arg,"-help")==0){
                 printf(HELP,prg_name);

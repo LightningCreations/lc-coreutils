@@ -6,7 +6,7 @@
 int main(int argc, char** argv) {
     if(argv[1] != NULL){
         if(strcmp(argv[1],"--version")==0)
-            printf(VERSION,argv[0]);
+            printf(VERSION,"true");
         else if(strcmp(argv[1],"--help")==0){
             static const char* HELP =
                     "Usage: %s [--version|--help] [other ignored parameters]\n"

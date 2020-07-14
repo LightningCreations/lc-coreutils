@@ -7,3 +7,5 @@ target_compile_definitions(mkdir PRIVATE -D_POSIX_C_SOURCE=200809L)
 install(TARGETS mkdir)
 
 add_subdirectory(tests)
+
+add_manual(mkdir "Creates a new directory" 1)

@@ -143,7 +143,7 @@ int main(int argc,char** argv){
             if(*arg=='-'){
                 arg++;
                 if(strcmp(arg,"version")==0) {
-                    printf(VERSION, prg_name);
+                    printf(VERSION, "mkdir");
                     return 0;
                 }else if(strcmp(arg,"parents")==0)
                     mkparents = 1;

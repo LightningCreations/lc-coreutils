@@ -34,7 +34,7 @@ int main(int argc,char** argv){
             if(strcmp(opt,"help")==0)
                 print_help(0,argv[0]);
             else if(strcmp(opt,"version")==0){
-                printf(VERSION,argv[0]);
+                printf(VERSION,"nohup");
                 return 0;
             }
         }
@@ -61,7 +61,6 @@ int main(int argc,char** argv){
         sigaddset(&blocked,SIGHUP);
         sigprocmask(SIG_BLOCK,&blocked,NULL);
         char* prg = argv[0];
-        argv++;
         execvp(prg,argv);
         perror("Could not execute program");
         return 1; /* If execvp returns, an error has occured, so return 1;*/ }

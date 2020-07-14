@@ -7,8 +7,8 @@
 
 #cmakedefine LCNIX_COREUTILS_VERSION "@LCNIX_COREUTILS_VERSION@"
 
-#define VERSION "Lightning Creations %s\n" \
-"Part of lc-coreutils " LCNIX_COREUTILS_VERSION " (part of lcnix)\n" \
+#define VERSION " %s (Lightning Creations Coreutils" LCNIX_COREUTILS_VERSION ")\n" \
+"Part of lcnix\n" \
 "Copyright (C) 2020 Lightning Creations\n"\
 "This program is a free software, released under the terms of the GNU GPLv3+\n" \
 "This program is provided on an AS-IS basis, without any warranty\n"

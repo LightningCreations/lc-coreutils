@@ -11,17 +11,18 @@
 
 int main(int argc,char** argv){
     static const char* HELP =
-            "Usage: %s OPTION|<FILE1 FILE2>\n"
+            "Usage: %s FILE1 FILE2\n"
+            "%s OPTION\n"
             "Creates a hard link from FILE2 to FILE1\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n"
             ;
     if(argc==2) {
         if (strcmp(argv[1], "--version")==0) {
-            printf(VERSION, argv[0]);
+            printf(VERSION, "version");
             return 0;
         }else if (strcmp(argv[1],"--help")==0){
-            printf(HELP,argv[0]);
+            printf(HELP,argv[0],argv[0]);
             return 0;
         }else{
             printf(HELP,argv[0]);
