@@ -2,7 +2,9 @@
 
 $1 | read y
 
-if [ $y != "y" ]
+echo $y
+
+if [ "$y" != "y" ]
 then
   exit 1
 fi
