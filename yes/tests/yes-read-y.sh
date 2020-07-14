@@ -1,10 +1,9 @@
 #!/bin/bash
 
-$1 | read y
+y=$($1 | head -n 1)
 
-echo $y
-
-if [ "$y" != "y" ]
+echo "${y}"
+if [ "${y}" != "y" ]
 then
   exit 1
 fi
