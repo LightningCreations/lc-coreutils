@@ -19,7 +19,7 @@ int main(int argc,char** argv){
             ;
     if(argc==2) {
         if (strcmp(argv[1], "--version")==0) {
-            printf(VERSION, "version");
+            printf(VERSION, "link");
             return 0;
         }else if (strcmp(argv[1],"--help")==0){
             printf(HELP,argv[0],argv[0]);
