@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
     static const char *HELP =
             "Usage: %s [OPTION] [STRING]\n" \
             "Echos the parameters to standard output\n" \
-            "\t-n: Omits trailing newline" \
+            "\t-n: Omits trailing newline\n" \
             "\t--version: Prints version information and exits\n" \
             "\t--help: Prints this message and exits\n";
 
