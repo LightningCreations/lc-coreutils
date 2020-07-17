@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(lc-coreutils C)
 
-set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd;link;yes")
+set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd;link;yes;dirname;basename")
 
 set(LCNIX_ENABLE_COREUTILS "all" CACHE STRING "Selects the list of coreutils to build and install")
 
@@ -26,9 +26,8 @@ function(add_manual prg description section)
         message(FATAL_ERROR "${prg} is not an executable target")
     endif()
     if(NOT LCNIX_COREUTILS_MAN_PAGES AND NOT ${HELP2MAN} STREQUAL "HELP2MAN-NOTFOUND")
-        add_custom_target(
-            man-${prg}
-            ALL
+        add_custom_command(
+            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${prg}.${section}
             COMMAND ${HELP2MAN} --section=${section}
                 "--source=Lightning Creations"
                 --output=${CMAKE_CURRENT_BINARY_DIR}/${prg}.${section}
@@ -36,7 +35,11 @@ function(add_manual prg description section)
                 "--name=${description}"
                 $<TARGET_FILE:${prg}>
             COMMENT "Building Manual in Section ${section} for lc-coreutils ${prg}"
+            DEPENDS ${prg}
         )
+        add_custom_target(man-page-${prg}
+                ALL
+                DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${prg}.${section})
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${prg}.${section}
                 DESTINATION ${CMAKE_INSTALL_MANDIR}/man${section})
     endif()

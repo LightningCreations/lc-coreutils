@@ -12,7 +12,6 @@ int main(int argc,char** argv){
             "Usage: %s [STRINGS...]\n"
             "\tor: %s OPTION\n"
             "Repeatedly outputs a line with STRINGS... or a single 'y' when omitted\n"
-            "Options:\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n";
     if(argv[1]&&strcmp(argv[1],"--version")==0)
