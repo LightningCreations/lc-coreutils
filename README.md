@@ -11,12 +11,17 @@ The following coreutils are implemented and tested:
 * nohup
 * pwd
 * md5sum, sha1sum, sha224sum, sha256sum, sha384sum, sha512sum [1]
+* dirname
+* basenqme
 
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
 
 
+Additionally, all coreutils install with appropriate man pages, if the help2man program is available in the host, and they are not disabled.
+
 [1]: All of these programs are built as aliases of `hashfile`. 
+
 
 ## Building with cmake
 
@@ -81,6 +86,7 @@ However, it is generally discouraged to use `make` directly for the following re
 * The tests are only available through cmake, and you are encouraged to run the tests if you intend to use these programs on your own system
 * The provided Makefile may be out of date relative to the CMakeLists. Not all coreutils may be built using `make`.
 * The provided Makefile hardcodes the installation prefix `/usr`, and the directories under the prefix `/bin` and `/sbin`. 
+* The Makefile does not generate man pages
 
 ## Running tests
 
