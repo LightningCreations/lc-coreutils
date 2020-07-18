@@ -12,7 +12,7 @@ The following coreutils are implemented and tested:
 * pwd
 * md5sum, sha1sum, sha224sum, sha256sum, sha384sum, sha512sum [1]
 * dirname
-* basenqme
+* basename
 
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
