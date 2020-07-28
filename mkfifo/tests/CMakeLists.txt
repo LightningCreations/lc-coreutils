@@ -9,3 +9,8 @@ add_test(NAME mkfifo-test-rw
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mkfifo-test-rw.sh $<TARGET_FILE:mkfifo> $<TARGET_FILE:mkfifo-read-0>
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
+add_test(NAME mkfifo-is-pipe
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mkfifo-is-pipe.sh $<TARGET_FILE:mkfifo>
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
+

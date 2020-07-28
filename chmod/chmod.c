@@ -111,13 +111,14 @@ int main(int argc,char** argv){
         "Usage: %s [OPTIONS]... MODE FILES...\n"
         "\tor: %s [OPTIONS]... --reference=FILE FILES...\n"
         "Changes the permission mode on the supplied files\n\n"
-        "Options:\n\n"
+        "Options:\n"
         "\t-c, --changes: Report on changed modes and errors\n"
         "\t-v, --verbose: Report on all actions, even when chmod doesn't change permissions\n"
         "\t-q, --quiet, --silent: Silence all messages, even errors.\n"
         "\t-R, --recursive: Operates recursively on children of directories\n"
         "\t--preserve-root: Fail to operate recursively on / \n"
         "\t--no-preserve-root: Don't treat / differently from any other directory (default)\n"
+        "\t--reference=FILE: Uses the file permissions on FILE, rather than a textual or octal mode\n"
         "\t--help: Prints this message and exits\n"
         "\t--version: Prints version information and exits\n";
 
@@ -175,7 +176,7 @@ int main(int argc,char** argv){
     }
 
     mode_t md;
-    _Bool reference_mode;
+    _Bool reference_mode = 0;
     struct stat st;
     if(strncmp(md_mopt,"--reference=",12)==0){
         const char* f = md_mopt+12;
@@ -214,9 +215,9 @@ int main(int argc,char** argv){
                     error(1, errno, "Could not update mode on file %s to %04o", *argv,md);
             }
             if (md != (st.st_mode & 07777) && diag_mode >= Changes)
-                printf("Updated mode of %s to %04lo", *argv, (unsigned long) md);
+                printf("Updated mode of %s to %04lo\n", *argv, (unsigned long) md);
             else if (diag_mode == Verbose)
-                printf("Retained mode of %s as %04lo", *argv, (unsigned long) md);
+                printf("Retained mode of %s as %04lo\n", *argv, (unsigned long) md);
         }else{
             if(reference_mode)
                 update_recursive_reference(fd,md,*argv,um,diag_mode);

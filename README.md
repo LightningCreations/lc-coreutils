@@ -13,6 +13,9 @@ The following coreutils are implemented and tested:
 * md5sum, sha1sum, sha224sum, sha256sum, sha384sum, sha512sum [1]
 * dirname
 * basename
+* mkfifo
+* mknod
+* chmod
 
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
@@ -77,16 +80,6 @@ A cmake superproject may set the `LCNIX_BOOTSTRAP_LIBC` and `LCNIX_BOOTSTRAP_CXX
  The behaviour is undefined if either variable is set to the name of a SHARED library, 
  or to a string that is not the name of a target. 
 
-## Building with make
-
-If you don't need the configuration provided by cmake, you can simply build by typing `make`.
-However, it is generally discouraged to use `make` directly for the following reasons:
-* The provided Makefile is not relocatable. You can only build with `make` inside the source directory
-* The provided Makefile is not covered by CI, it may have unknown issues.
-* The tests are only available through cmake, and you are encouraged to run the tests if you intend to use these programs on your own system
-* The provided Makefile may be out of date relative to the CMakeLists. Not all coreutils may be built using `make`.
-* The provided Makefile hardcodes the installation prefix `/usr`, and the directories under the prefix `/bin` and `/sbin`. 
-* The Makefile does not generate man pages
 
 ## Running tests
 
