@@ -26,9 +26,9 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
                 error(1, 0, "Invalid mode selector %s", i_md);
             mode_t mask = 0;
             mode_t b_val = 0;
-            if (*opt && (*opt == '-' || *opt == '+' || *opt == '-'))
+            if (*opt && (*opt == '-' || *opt == '+' || *opt == '='))
                 mask = 07777 & ~umask;
-            while (*opt != '-' && *opt != '+' && *opt != '-')
+            while (*opt != '-' && *opt != '+' && *opt != '=')
                 switch (*opt++) {
                     case 'u':
                         mask |= 04700;
@@ -50,12 +50,15 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
                 if (*opt == 'u') {
                     mode_t v = (mode & 0700) >> 6;
                     b_val = (v<<6) | (v<<3) | v;
+                    opt++;
                 }else if (*opt == 'g') {
                     mode_t v = (mode & 070) >> 3;
                     b_val = (v<<6) | (v<<3) | v;
+                    opt++;
                 }else if (*opt == 'o') {
                     mode_t v = (mode & 07);
                     b_val = (v<<6) | (v<<3) | v;
+                    opt++;
                 }else
                     while (1) {
                         if (*opt == 's')

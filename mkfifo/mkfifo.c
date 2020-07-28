@@ -38,13 +38,13 @@ int main(int argc,char** argv){
                     if(!*arg)
                         error(1,0,HELP,prg_name);
                     mode_t um = umask(0);
-                    mode = parse_mode(arg,mode,0,um);
+                    mode = parse_mode(arg,0,0,um);
                 }
             }else if(*arg=='m'){
                 if(!argv[1])
                     error(1,0,HELP,prg_name);
                 mode_t um = umask(0);
-                mode = parse_mode(argv[1],mode,0,um);
+                mode = parse_mode(argv[1],0,0,um);
                 argv++;
             }else
                 error(1,0,HELP,prg_name);
