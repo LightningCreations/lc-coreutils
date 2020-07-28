@@ -13,72 +13,7 @@
 #include <error.h>
 #include <stdlib.h>
 
-mode_t parse_mode(char* md,mode_t mode){
-    if(*md=='+')
-        mode = ~strtol(md+1,NULL,8);
-    else if(*md=='-')
-        mode &= ~strtol(md+1,NULL,8);
-    else if(*md=='='||(*md>='0'&&*md<'8'))
-        mode = strtol(md,NULL,8);
-    else
-    {
-        char *opt = strtok(md, ",");
-        while(opt) {
-            if(strlen(opt)<2)
-                error(1,0,"Invalid mode selector");
-            mode_t mask = 0;
-            mode_t b_val = 0;
-            char sel = *opt++;
-            char sw = *opt++;
-            if (*opt == 'u')
-                b_val = (mode >> 6) & 7;
-            else if (*opt == 'g')
-                b_val = (mode >> 3) & 7;
-            else if (*opt == 'o')
-                b_val = (mode >> 3) & 7;
-            else
-                while (*opt) {
-                    if (*opt == 's')
-                        b_val |= 06000;
-                    else if (*opt == 'r')
-                        b_val |= 0444;
-                    else if (*opt == 'w')
-                        b_val |= 0222;
-                    else if (*opt == 'x')
-                        b_val |= 0111;
-                    else if (*opt == 't')
-                        b_val |= 01000;
-                    else if (*opt == 'X')
-                        b_val |= (mode & 0111 ? 0111 : 0);
-                    opt++;
-                }
-
-            if (sel == 'u')
-                mask = 04700;
-            else if (sel == 'g')
-                mask = 02700;
-            else if (sel == 'o')
-                mask = 0700;
-            else if (sel == 'a')
-                mask = 01777;
-            b_val &= mask;
-            // Remove the bits for now, if its +, union them, it its =, discard, if its -, set difference
-            switch (sw) {
-                case '+':
-                    mode |= b_val;
-                    break;
-                case '-':
-                    mode |= mode & (~b_val);
-                    break;
-                case '=':
-                    mode = (mode & (~mask)) | b_val;
-                    break;
-            }
-            opt = strtok(NULL,",");
-        }
-    }
-    return mode;
-}
+#include <chmod-parse.h>
 
 int main(int argc,char** argv){
     _Bool mkparents = 0;
@@ -91,8 +26,8 @@ int main(int argc,char** argv){
             "Creates each of the provided directories\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n"
-            "\t-m,--mode=<mode>: Sets the base to create the directory with, instead of 777&(~umask)"
-            "\t-p,--parents: Creates all parents of each directory and ignores existing directories"
+            "\t-m,--mode=<mode>: Sets the base to create the directory with, instead of 777&(~umask)\n"
+            "\t-p,--parents: Creates all parents of each directory and ignores existing directories\n"
             "\t-v,--verbose: Prints a message for each directory created\n"
     ;
     (void)argc;
@@ -158,9 +93,10 @@ int main(int argc,char** argv){
                         printf(HELP,prg_name);
                         return 1;
                     }
-                    mode &= ~umask(0);
+                    mode_t um = umask(0);
+                    mode &= ~um;
                     arg++;
-                    mode = parse_mode(arg,mode);
+                    mode = parse_mode(arg,mode,1,um);
                 }else if(!*arg)
                     done_opts = 1; // Allow `--` to signify the end of the options
                 else{
@@ -174,11 +110,12 @@ int main(int argc,char** argv){
                     verbose = 1;
                 else if(*arg=='m'){
                     arg++;
-                    mode &= ~umask(0);
+                    mode_t um = umask(0);
+                    mode &= ~um;
                     if(*arg)
-                        mode = parse_mode(arg,mode);
+                        mode = parse_mode(arg,mode,1,um);
                     else if(*argv++){
-                        mode = parse_mode(*argv,mode);
+                        mode = parse_mode(*argv,mode,1,um);
                     }else{
                         printf(HELP,prg_name);
                         return 1;

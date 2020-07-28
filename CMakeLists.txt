@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 project(lc-coreutils C)
 
-set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd;link;yes;dirname;basename")
+
+
+
+set(LCNIX_KNOWN_COREUTILS "echo;false;true;hashfile;nohup;mkdir;pwd;link;yes;dirname;basename;chmod")
 
 set(LCNIX_ENABLE_COREUTILS "all" CACHE STRING "Selects the list of coreutils to build and install")
 
@@ -62,6 +65,8 @@ if(LCNIX_COREUTILS_RUNTESTS)
 endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/chmod-parse)
+add_subdirectory(chmod-parse)
 
 add_library(lc-coreutils-version INTERFACE)
 
