@@ -10,7 +10,8 @@ int main(int argc, char** argv) {
         else if(strcmp(argv[1],"--help")==0){
             static const char* HELP =
                     "Usage: %s [--version|--help] [other ignored parameters]\n"
-                    "A program that unconditionally produces an ok return value\n"
+                    "A program that unconditionally produces an ok return value\n\n"
+                    "Options:\n"
                     "\t--version: Prints version information and exits\n"
                     "\t--help: Prints this message and exits\n"
             ;

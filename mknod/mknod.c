@@ -18,6 +18,7 @@ int main(int argc,char** argv){
     const char* HELP =
             "Usage: %s [OPTIONS]... NAME TYPE [MAJOR MINOR]\n"
             "Creates a special file with a given type\n\n"
+            "Options:\n"
             "\t-m,--mode=MODE: Sets the mode to MODE, rather than =rw\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n"

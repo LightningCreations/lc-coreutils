@@ -12,7 +12,8 @@ int main(int argc,char** argv){
     const char* prg_name = *argv++;
     static const char* HELP =
             "Usage: %s [OPTION] NAMES...\n"
-            "Prints each of NAMES... with the last non-slash component, and trailing slashes removed.\n"
+            "Prints each of NAMES... with the last non-slash component, and trailing slashes removed.\n\n"
+            "Options:\n"
             "\t-z, --zero: Prints a NUL byte between the output NAMES..., rather than a newline\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n";

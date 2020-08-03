@@ -23,7 +23,8 @@ int main(int argc,char** argv){
     char* prg_name = argv[0];
     static const char* HELP =
             "Usage: %s [OPTIONS...] [DIRECTORY..]\n"
-            "Creates each of the provided directories\n"
+            "Creates each of the provided directories\n\n"
+            "Options:\n"
             "\t--version: Prints version information and exits\n"
             "\t--help: Prints this message and exits\n"
             "\t-m,--mode=<mode>: Sets the base to create the directory with, instead of 777&(~umask)\n"

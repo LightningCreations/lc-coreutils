@@ -14,7 +14,8 @@
 int main(int argc,char** argv){
     static const char* HELP =
             "USAGE: %s [OPTIONS...]\n"
-            "Prints the process working directory\n"
+            "Prints the process working directory\n\n"
+            "Options:\n"
             "\t--help: Prints this message and exits\n"
             "\t--version: Prints version information and exits\n"
             "\t-L: Use the value of the PWD environment variable, even if it may contain symlinks\n"

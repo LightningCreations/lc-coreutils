@@ -53,7 +53,8 @@ int main(int argc,char** argv){
                 error(1,0,HELP,prg_name);
         }else{
             done_opts = 1;
-            mkfifo(arg,mode);
+            if(mkfifo(arg,mode)<0)
+                error(1,errno,"Cannot create named pipe %s",arg);
         }
     }
 }
