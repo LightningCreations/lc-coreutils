@@ -20,8 +20,12 @@ The following coreutils are implemented and tested:
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
 
+The following library is provided:
+* chmod-parse: Parses a mode in a form acceptable to the chmod command,
+ except that `--reference` modes are not handled. 
 
-Additionally, all coreutils install with appropriate man pages, if the help2man program is available in the host, and they are not disabled.
+Additionally, all coreutils install with appropriate man pages,
+ if the help2man program is available in the host, and they are not disabled.
 
 [1]: All of these programs are built as aliases of `hashfile`. 
 
@@ -91,8 +95,9 @@ All tests should pass with the following *known* issues:
  will fail on filesystems which do not support hard links (such as FAT32).
 * Most of the above tests will fail if the source and build directories are on different file systems.  
 * The nohup testsuite hangs indefinately, and is presently disabled.
-* 3 of the mkdir tests are checking for proper handling of the `--mode` (mkdir-mode-short, mkdir-mode-long, and mkdir-mode-suid). 
- These tests will likely fail on a filesystem which doesn't have permissions, may fail on NTFS (mkdir-mode-suid will likely fail on ntfs).
+* All tests (except in chmod-parse) which test for mode (ie. that have '-mode' in the name),
+ and all chmod tests,
+ 
 
 Beyond the known failures, 
  any test suite failure is a bug and should be reported to the lc-coreutils issue tracker,
@@ -100,7 +105,8 @@ Beyond the known failures,
 
 Please indicate the which test(s) failed, and any additional information
  (for example, if they reported a SEGMENTATION FAULT or BAD COMMAND),
- It is recommend to tag the issue with the appropriate coreutil (the first part of the test name).
+ It is recommend to tag the issue with the appropriate coreutil (the first part of the test name,
+  or `chmod-parse` if the test name starts with `chmod-parse`).
  Also include information about your system, IE. which linux distro and version, if you are using cygwin, etc.
  
  

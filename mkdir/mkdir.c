@@ -97,6 +97,8 @@ int main(int argc,char** argv){
                     mode &= ~um;
                     arg++;
                     mode = parse_mode(arg,mode,1,um);
+                    if(mode<0)
+                        error(1,errno,"Invalid mode specified %s",arg);
                 }else if(!*arg)
                     done_opts = 1; // Allow `--` to signify the end of the options
                 else{
@@ -114,12 +116,15 @@ int main(int argc,char** argv){
                     mode &= ~um;
                     if(*arg)
                         mode = parse_mode(arg,mode,1,um);
-                    else if(*argv++){
+                    else if(*++argv){
                         mode = parse_mode(*argv,mode,1,um);
+                        arg = *argv;
                     }else{
                         printf(HELP,prg_name);
                         return 1;
                     }
+                    if(mode<0)
+                        error(1,errno,"Invalid mode specified %s",arg);
                     break;
                 }else{
                     printf(HELP,prg_name);

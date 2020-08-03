@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <error.h>
+#include <errno.h>
 
 int main(int argc,char** argv){
     const char* HELP =
@@ -39,6 +40,8 @@ int main(int argc,char** argv){
                         error(1,0,HELP,prg_name);
                     mode_t um = umask(0);
                     mode = parse_mode(arg,0,0,um);
+                    if(mode<0)
+                        error(1,errno,"Invalid mode specified %s",arg);
                 }
             }else if(*arg=='m'){
                 if(!argv[1])

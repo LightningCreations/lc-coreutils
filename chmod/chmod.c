@@ -65,6 +65,9 @@ void update_recursive(int fd,const char* md,const char* name_buf,mode_t um,enum 
     if(fstat(fd,&st))
         error(1,errno,"Cannot stat %s",name_buf);
     mode_t m = parse_mode(md,st.st_mode&07777,S_ISDIR(st.st_mode),um);
+    if(m<0)
+        error(1,errno,"Invalid mode specified %s",md);
+
     if(fchmod(fd,m)<0){
         if(diag<Normal)
             exit(1);
@@ -208,6 +211,8 @@ int main(int argc,char** argv){
             _Bool dir = S_ISDIR(st.st_mode);
             if (!reference_mode)
                 md = parse_mode(md_mopt, st.st_mode & 07777, dir, um);
+            if(md<0)
+                error(1,errno,"Invalid mode specified %s",md_mopt);
             if (fchmod(fd, md) < 0) {
                 if (diag_mode < Normal)
                     exit(1);

@@ -3,7 +3,7 @@
 //
 
 #include "chmod-parse.h"
-#include <error.h>
+#include <errno.h>
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
@@ -22,8 +22,11 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
     {
         char *opt = strtok(md, ",");
         while(opt) {
-            if (strlen(opt) < 2)
-                error(1, 0, "Invalid mode selector %s", i_md);
+            if (strlen(opt) < 2){
+                errno = EINVAL;
+                free(md);
+                return -1;
+            }
             mode_t mask = 0;
             mode_t b_val = 0;
             if (*opt && (*opt == '-' || *opt == '+' || *opt == '='))
@@ -43,7 +46,11 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
                         mask |= 07777;
                         break;
                     default:
-                        error(1, 0, "Invalid mode selector %s", i_md);
+                    {
+                        errno = EINVAL;
+                        free(md);
+                        return -1;
+                    }
                 }
             do {
                 char sw = *opt++;
@@ -76,7 +83,11 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
                         else if(!*opt || *opt == '+'|| *opt == '-' || *opt == '=') {
                             break;
                         }else if(*opt)
-                            error(1, 0, "Invalid mode selector %s", i_md);
+                        {
+                            errno = EINVAL;
+                            free(md);
+                            return -1;
+                        }
                         opt++;
                     }
                 b_val &= mask;
@@ -92,11 +103,16 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
                         mode = (mode&(~mask)) | b_val | (dir ? mode & 06000 : 0);
                         break;
                     default:
-                        error(1, 0, "Invalid mode selector");
+                    {
+                        errno = EINVAL;
+                        free(md);
+                        return -1;
+                    }
                 }
             }while(*opt);
             opt = strtok(NULL, ",");
         }
     }
+    free(md);
     return mode;
 }

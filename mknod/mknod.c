@@ -31,10 +31,15 @@ int main(int argc,char** argv){
     for(;*argv&&**argv=='-';argv++){
         char* arg = (*argv)+1;
         if(*arg=='m'){
-            if(!argv[1])
+            if(*++arg);
+            else if(!argv[1])
                 error(1,0,HELP,prg_name);
+            else
+                arg = argv[1];
             mode_t um = umask(0);
-            mode = parse_mode(argv[1],0,0,um);
+            mode = parse_mode(arg,0,0,um);
+            if(mode<0)
+                error(1,errno,"Invalid mode specified %s",arg);
         }else if(*arg=='-'){
             arg++;
             if(strcmp(arg,"version")==0){
@@ -48,6 +53,8 @@ int main(int argc,char** argv){
                     error(1,0,HELP,prg_name);
                 mode_t um = umask(0);
                 mode = parse_mode(arg+5,0,0,um);
+                if(mode<0)
+                    error(1,errno,"Invalid mode specified %s",arg+5);
             } else
                 break;
         } else
