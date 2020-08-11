@@ -19,6 +19,7 @@ The following coreutils are implemented and tested:
 
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
+* which: Finds executable programs in PATH. 
 
 The following library is provided:
 * chmod-parse: Parses a mode in a form acceptable to the chmod command,

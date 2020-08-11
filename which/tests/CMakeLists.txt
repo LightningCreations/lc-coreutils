@@ -1,0 +1,4 @@
+
+add_test(NAME which-test
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-which.sh $<TARGET_FILE:which> ${CMAKE_CURRENT_SOURCE_DIR} dummy
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
