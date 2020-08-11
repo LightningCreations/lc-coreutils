@@ -26,7 +26,7 @@ _Noreturn void print_help(int code,const char* prg_name){
 }
 
 int main(int argc,char** argv){
-    if(argc<1)
+    if(argc<2)
         print_help(1,argv[0]);
     else if(*argv[1]=='-'){
         const char* opt = argv[1]+1;

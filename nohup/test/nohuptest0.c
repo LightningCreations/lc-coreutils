@@ -7,6 +7,8 @@
 #include <signal.h>
 #include <unistd.h>
 
+#include <fcntl.h>
+
 
 void test_usr1(int signal){
     if(signal==SIGUSR1)
@@ -20,7 +22,8 @@ int main(void){
     sigset_t set;
     sigemptyset(&set);
     signal(SIGUSR1,test_usr1);
-    kill(getppid(),SIGUSR2); // Tell the parent that the
+    if(openat(AT_FDCWD,"barrier",O_RDONLY)<0)
+        return 1;
     pause();
     return -1; // If anything else was recieved, that isn't SIGUSR2 and doesn't quit the program, return -1
 }

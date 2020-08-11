@@ -23,8 +23,8 @@
  *   then the permissions already present in that selector are copied based on the type selector.
  *  Otherwise, the permissions are the bits to affect.
  *  r is the "readable" bit, w is the "writable" bit, x is the "executable" bit,
- *   t is the "stick" or "secure-delete" bit (when the type is o, a, or omitted),
- *   s is the set-uid bit and/or the set-gid bit (when type is u (suid), g (sgid), a or omitted (both suid and sgid),
+ *   t is the "sticky" or "secure-delete" bit (when the type is o, a, or omitted),
+ *   s is the set-uid bit and/or the set-gid bit (when type is u (suid), g (sgid), a or omitted (both suid and sgid)),
  *  X affects the "executable" bit if either the file is a directory, or any type in the incoming mode has the executable bit set.
  *
  * If multiple textual modes are provided, they modify the incoming mode in order, and apply to the modified incoming mode.
