@@ -64,9 +64,7 @@ There are no further limitations on how you can build using cmake.
 
 Presently native windows (including mingw) is neither supported nor tested. 
  Many of the programs use posix-specific functions, which are likely unavailable in windows. 
-However, building and running on cygwin should work the same as building on linux. 
-If there is a problem building on cygwin, you can file an issue.
- Note that CI coverage only includes native linux.
+Additionally, building on cygwin is not supported. Numerous test failures occur on cygwin w/o explanation. 
 
 If you only want to build specific coreutils,
  you can specify them in `LCNIX_ENABLE_COREUTILS`.
@@ -93,12 +91,10 @@ After building with cmake, you can run ctest in the build directory.
 
 All tests should pass with the following *known* issues:
 * The link test suite, as well as the ln tests which mention `hard` links (ie. `ln-hard-target`)
- will fail on filesystems which do not support hard links (such as FAT32).
-* Most of the above tests will fail if the source and build directories are on different file systems.  
-* The nohup testsuite hangs indefinately, and is presently disabled.
+  will likely fail on filesystems which do not support hard links (such as FAT32). These tests will also likely fail if the source and build directories are on different file systems. 
 * All tests (except in chmod-parse) which test for mode (ie. that have '-mode' in the name),
- and all chmod tests,
- 
+  and all chmod tests, will likely not work on filesystems that do not support unix style permissions (including FAT32 and NTFS). 
+* The mkfifo, mknod, and nohup test suites may fail on filesystems that do not support named pipe files. (nohup uses a named pipe as a interprocess synchronization primitive). 
 
 Beyond the known failures, 
  any test suite failure is a bug and should be reported to the lc-coreutils issue tracker,
@@ -108,7 +104,7 @@ Please indicate the which test(s) failed, and any additional information
  (for example, if they reported a SEGMENTATION FAULT or BAD COMMAND),
  It is recommend to tag the issue with the appropriate coreutil (the first part of the test name,
   or `chmod-parse` if the test name starts with `chmod-parse`).
- Also include information about your system, IE. which linux distro and version, if you are using cygwin, etc.
+ Also include information about your system, IE. which linux distro and version.
  
  
 The tests are run by CI, so failures should be rare, 
