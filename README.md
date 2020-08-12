@@ -16,6 +16,7 @@ The following coreutils are implemented and tested:
 * mkfifo
 * mknod
 * chmod
+* arch
 
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
