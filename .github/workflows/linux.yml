@@ -15,7 +15,7 @@ jobs:
       with:
         submodules: true 
     - name: Install Dependencies
-      runs: sudo apt install -y valgrind
+      run: sudo apt install -y valgrind
     - name: Clang Build
       uses: ashutoshvarma/action-cmake-build@v1
       with:
@@ -37,7 +37,7 @@ jobs:
       with:
         submodules: true
     - name: Install Dependencies
-      runs: sudo apt install -y valgrind
+      run: sudo apt install -y valgrind
     - name: Clang Build
       uses: ashutoshvarma/action-cmake-build@v1
       with:
