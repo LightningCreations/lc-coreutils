@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build_clang:
+  build_clang_release:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         run-test: true
         configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
         ctest-options: --output-on-failure 
-  build_gcc:
+  build_gcc_release:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout
@@ -48,6 +48,144 @@ jobs:
         cxx: g++ # optional
         update-submodules: true
         build-type: release 
+        parallel: 8
+        build-dir: ${{runner.workspace}}/build-gcc
+        run-test: true
+        configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        ctest-options: --output-on-failure 
+  build_clang_debug:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+      with:
+        submodules: true 
+    - name: Install Dependencies
+      run: sudo apt install -y valgrind
+    - name: Clang Build
+      uses: ashutoshvarma/action-cmake-build@v1
+      with:
+        # C Compiler for toolchain
+        cc: clang # optional
+        # C++ Compiler for toolchain
+        cxx: clang++ # optional
+        update-submodules: true
+        parallel: 8
+        build-type: debug 
+        build-dir: ${{runner.workspace}}/build-clang
+        run-test: true
+        configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        ctest-options: --output-on-failure 
+  build_gcc_debug:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+      with:
+        submodules: true
+    - name: Install Dependencies
+      run: sudo apt install -y valgrind
+    - name: Clang Build
+      uses: ashutoshvarma/action-cmake-build@v1
+      with:
+        # C Compiler for toolchain
+        cc: gcc # optional
+        # C++ Compiler for toolchain
+        cxx: g++ # optional
+        update-submodules: true
+        build-type: debug 
+        parallel: 8
+        build-dir: ${{runner.workspace}}/build-gcc
+        run-test: true
+        configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        ctest-options: --output-on-failure 
+  build_clang_minsizerel:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+      with:
+        submodules: true 
+    - name: Install Dependencies
+      run: sudo apt install -y valgrind
+    - name: Clang Build
+      uses: ashutoshvarma/action-cmake-build@v1
+      with:
+        # C Compiler for toolchain
+        cc: clang # optional
+        # C++ Compiler for toolchain
+        cxx: clang++ # optional
+        update-submodules: true
+        parallel: 8
+        build-type: minsizerel 
+        build-dir: ${{runner.workspace}}/build-clang
+        run-test: true
+        configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        ctest-options: --output-on-failure 
+  build_gcc:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+      with:
+        submodules: true
+    - name: Install Dependencies
+      run: sudo apt install -y valgrind
+    - name: Clang Build
+      uses: ashutoshvarma/action-cmake-build@v1
+      with:
+        # C Compiler for toolchain
+        cc: gcc # optional
+        # C++ Compiler for toolchain
+        cxx: g++ # optional
+        update-submodules: true
+        build-type: minsizerel 
+        parallel: 8
+        build-dir: ${{runner.workspace}}/build-gcc
+        run-test: true
+        configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        ctest-options: --output-on-failure
+  build_clang_relwithdebinfo:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+      with:
+        submodules: true 
+    - name: Install Dependencies
+      run: sudo apt install -y valgrind
+    - name: Clang Build
+      uses: ashutoshvarma/action-cmake-build@v1
+      with:
+        # C Compiler for toolchain
+        cc: clang # optional
+        # C++ Compiler for toolchain
+        cxx: clang++ # optional
+        update-submodules: true
+        parallel: 8
+        build-type: relwithdebinfo 
+        build-dir: ${{runner.workspace}}/build-clang
+        run-test: true
+        configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        ctest-options: --output-on-failure 
+  build_gcc_relwithdebinfo:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+      with:
+        submodules: true
+    - name: Install Dependencies
+      run: sudo apt install -y valgrind
+    - name: Clang Build
+      uses: ashutoshvarma/action-cmake-build@v1
+      with:
+        # C Compiler for toolchain
+        cc: gcc # optional
+        # C++ Compiler for toolchain
+        cxx: g++ # optional
+        update-submodules: true
+        build-type: relwithdebinfo 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
         run-test: true
