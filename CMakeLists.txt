@@ -49,10 +49,29 @@ endfunction()
 option(LCNIX_COREUTILS_VALGRIND_TESTS "Runs Valgrind tests on coreutils that have them" OFF)
 
 if(LCNIX_COREUTILS_VALGRIND_TESTS)
+    message(CHECK_START "Checking for valgrind")
     find_program(VALGRIND valgrind HINTS /usr/bin /usr/local/bin)
-
+    
     if(VALGRIND STREQUAL "VALGRIND-NOTFOUND")
+        message(CHECK_FAIL "NOTFOUND")
         message(WARNING "Valgrind tests were requested but valgrind was not found")
+        set(LCNIX_COREUTILS_VALGRIND_TEST OFF)
+    else()
+        message(CHECK_PASS "${VALGRIND}")
+    endif()
+    
+    message(CHECK_START "Checking that ${VALGRIND} accepts --exit-on-first-error")
+    execute_process(COMMAND ${VALGRIND} --error-exitcode=1 --exit-on-first-error=yes true
+    RESULT_VARIABLE _LCNIX_VALGRIND_EXIT_ON_FIRST_ERROR_YES
+    OUTPUT_QUIET
+    ERROR_QUIET
+    )
+    if(_LCNIX_VALGRIND_EXIT_ON_FIRST_ERROR_YES EQUAL 0)
+        message(CHECK_PASS "Yes")
+    else()
+        set(LCNIX_COREUTILS_VALGRIND_TEST OFF)
+        message(CHECK_FAIL "No")
+        message(WARNING "Valgrind tests were requested but valgrind did not accept the required options")
     endif()
 endif()
 
