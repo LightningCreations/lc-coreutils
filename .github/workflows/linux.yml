@@ -8,7 +8,7 @@ on:
 
 jobs:
   build_clang:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout
       uses: actions/checkout@v2.3.0
@@ -31,7 +31,7 @@ jobs:
         configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
         ctest-options: --output-on-failure 
   build_gcc:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout
       uses: actions/checkout@v2.3.0
