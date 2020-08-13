@@ -29,6 +29,7 @@ jobs:
         build-dir: ${{runner.workspace}}/build-clang
         run-test: true
         configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        test-options: --output-on-failure 
   build_gcc:
     runs-on: ubuntu-latest
     steps:
@@ -51,3 +52,4 @@ jobs:
         build-dir: ${{runner.workspace}}/build-gcc
         run-test: true
         configure-options: -DLCNIX_COREUTILS_VALGRIND_TESTS=ON
+        test-options: --output-on-failure 
