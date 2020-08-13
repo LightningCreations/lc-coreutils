@@ -46,6 +46,16 @@ function(add_manual prg description section)
     endif()
 endfunction()
 
+option(LCNIX_COREUTILS_VALGRIND_TESTS "Runs Valgrind tests on coreutils that have them" OFF)
+
+if(LCNIX_COREUTILS_VALGRIND_TESTS)
+    find_program(VALGRIND valgrind HINTS /usr/bin /usr/local/bin)
+
+    if(VALGRIND STREQUAL "VALGRIND-NOTFOUND")
+        message(WARNING "Valgrind tests were requested but valgrind was not found")
+    endif()
+endif()
+
 include(GNUInstallDirs)
 
 set(LCNIX_COREUTILS_VERSION 0.1)
