@@ -44,13 +44,13 @@ int main(int argc,char** argv){
             if(access(*argv,X_OK)==0)
                 printf("%s\n", *argv);
         }else{
-            char buf[PATH_MAX];
+            char buf[PATH_MAX+1];
             char* path_d = strdup(path);
             for(char* c = strtok(path_d,":");c;c=strtok(NULL,":")){
                 size_t len = strlen(c);
                 if(len==0)
                     continue;
-                strcpy(buf,c);
+                strncpy(buf,c,PATH_MAX);
                 if(c[len-1]!='/')
                     strcat(buf,"/");
                 strncat(buf,*argv,PATH_MAX-len);
@@ -60,7 +60,7 @@ int main(int argc,char** argv){
                         break;
                 }
             }
+            free(path_d);
         }
     }
-
 }

@@ -59,20 +59,6 @@ if(LCNIX_COREUTILS_VALGRIND_TESTS)
     else()
         message(CHECK_PASS "${VALGRIND}")
     endif()
-    
-    message(CHECK_START "Checking that ${VALGRIND} accepts --exit-on-first-error")
-    execute_process(COMMAND ${VALGRIND} --error-exitcode=1 --exit-on-first-error=yes true
-    RESULT_VARIABLE _LCNIX_VALGRIND_EXIT_ON_FIRST_ERROR_YES
-    OUTPUT_QUIET
-    ERROR_QUIET
-    )
-    if(_LCNIX_VALGRIND_EXIT_ON_FIRST_ERROR_YES EQUAL 0)
-        message(CHECK_PASS "Yes")
-    else()
-        set(LCNIX_COREUTILS_VALGRIND_TESTS OFF)
-        message(CHECK_FAIL "No")
-        message(WARNING "Valgrind tests were requested but valgrind did not accept the required options")
-    endif()
 endif()
 
 include(GNUInstallDirs)
