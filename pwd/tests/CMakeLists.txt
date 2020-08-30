@@ -3,10 +3,10 @@ add_test(NAME pwd
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-pwd.sh $<TARGET_FILE:pwd>
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-add_test(NAME cd-pwd
+add_test(NAME pwd-cd
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-cd-pwd.sh $<TARGET_FILE:pwd>
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-add_test(NAME cd-link-pwd
+add_test(NAME pwd-cd-link
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-cd-link-pwd.sh $<TARGET_FILE:pwd>
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

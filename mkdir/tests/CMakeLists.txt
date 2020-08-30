@@ -11,7 +11,7 @@ add_test(NAME mkdir
 
 add_test(NAME mkdir-mode
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir-mode.sh $<TARGET_FILE:mkdir>
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode-long)
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode)
 
 add_test(NAME mkdir-mode-long
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir-mode-long.sh $<TARGET_FILE:mkdir>
@@ -19,7 +19,7 @@ add_test(NAME mkdir-mode-long
 
 add_test(NAME mkdir-mode-suid
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir-mode-suid.sh $<TARGET_FILE:mkdir>
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode-long)
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode-suid)
 
 add_test(NAME mkdir-parents
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir-parents.sh $<TARGET_FILE:mkdir>

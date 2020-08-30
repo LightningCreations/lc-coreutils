@@ -36,7 +36,7 @@ int main(int argc,char** argv){
             else if(!argv[1])
                 error(1,0,HELP,prg_name);
             else
-                arg = argv[1];
+                arg = *++argv;
             mode_t um = umask(0);
             mode = parse_mode(arg,0,0,um);
             if(mode<0)

@@ -97,6 +97,8 @@ All tests should pass with the following *known* issues:
   and all chmod tests, will likely not work on filesystems that do not support unix style permissions (including FAT32 and NTFS). 
 * The mkfifo, mknod, and nohup test suites may fail on filesystems that do not support named pipe files. (nohup uses a named pipe as a interprocess synchronization primitive). 
 
+(Note: mknod does not test block or character device files, due to the nature of them, and the dependence on a privileged process)
+
 Beyond the known failures, 
  any test suite failure is a bug and should be reported to the lc-coreutils issue tracker,
  <https://github.com/LightningCreations/lc-coreutils/issues>. 
