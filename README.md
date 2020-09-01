@@ -76,13 +76,6 @@ See the list of implemented coreutils above
  Specifying any of those in `LCNIX_ENABLE_COREUTILS` will cause an error. 
  Instead specify them in `LCNIX_COREUTILS_HASHSUM_ALIASES` instead. 
 
-lc-coreutils is lcnix bootstrap aware. 
-A cmake superproject may set the `LCNIX_BOOTSTRAP_LIBC` and `LCNIX_BOOTSTRAP_CXXSTDLIB`
- to the names of STATIC library targets in the same project. 
- This will cause lc-coreutils to build against that libc (using `-static -nostdlib`)
-  (and that c++ stdlib).
- The behaviour is undefined if either variable is set to the name of a SHARED library, 
- or to a string that is not the name of a target. 
 
 
 ## Running tests
@@ -113,6 +106,10 @@ Please indicate the which test(s) failed, and any additional information
 The tests are run by CI, so failures should be rare, 
  but it is still recommended that you run the test suite
  (especially if succesfully building on an unsupported or untested platform).
+
+
+If you have valgrind installed, you can set the cmake variable `LCNIX_COREUTILS_VALGRIND_TESTS` (with `-DLCNIX_COREUTILS_VALGRIND_TESTS=ON` when configuring) to run valgrind tests on some coreutils. 
+Valgrind tests are generally not necessary to run, as they are run in CI, and are unlikely to change between environments, and they can take considerably longer than the regular tests (particularily on `Debug` builds), and do not necessarily test the correctness of the implementation, but are focused on testing if there are memory issues (such as memory leaks, buffer overflows, etc.). Note that valgrind tests have limited coverage compared to the normal tests (presently only `chmod-parse`, `true`, `false`, and `hashfile` are covered by valgrind tests). 
 
 
 ## Hacking/Modifying lc-coreutils
