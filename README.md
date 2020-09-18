@@ -93,7 +93,7 @@ All tests should pass with the following *known* issues:
 (Note: mknod does not test block or character device files, due to the nature of them, and the dependence on a privileged process)
 
 Beyond the known failures, 
- any test suite failure is a bug and should be reported to the lc-coreutils issue tracker,
+ any test suite failure (except on an unsupported system) is a bug and should be reported to the lc-coreutils issue tracker,
  <https://github.com/LightningCreations/lc-coreutils/issues>. 
 
 Please indicate the which test(s) failed, and any additional information
@@ -111,6 +111,9 @@ The tests are run by CI, so failures should be rare,
 If you have valgrind installed, you can set the cmake variable `LCNIX_COREUTILS_VALGRIND_TESTS` (with `-DLCNIX_COREUTILS_VALGRIND_TESTS=ON` when configuring) to run valgrind tests on some coreutils. 
 Valgrind tests are generally not necessary to run, as they are run in CI, and are unlikely to change between environments, and they can take considerably longer than the regular tests (particularily on `Debug` builds), and do not necessarily test the correctness of the implementation, but are focused on testing if there are memory issues (such as memory leaks, buffer overflows, etc.). Note that valgrind tests have limited coverage compared to the normal tests (presently only `chmod-parse`, `true`, `false`, and `hashfile` are covered by valgrind tests). 
 
+### Running tests with sanitizers
+
+You can build and run 
 
 ## Hacking/Modifying lc-coreutils
 
@@ -120,7 +123,19 @@ If you want to implement a missing feature, add a missing coreutil,
 In all cases, you are encouraged to add test cases for anything you implement. 
 
 Before reporting a test suite failure in a modified branch,
- ensure that it is reproducible on a clean (unmodified) clone of lc-coreutils. 
+ ensure that it is reproducible on a clean (unmodified) clone of lc-coreutils.
+
+If the test suite failure is caused by a test you add, which tests an existing behaviour of lc-coreutils,
+ instead ensure the following: 
+* The test is either of behaviour mandated by POSIX or the Linux Standards Base, or is a well-defined feature of
+ GNU Coreutils, or otherwise provided by lc-coreutils (with ascending order of priority),
+ or tests for memory errors (such as valgrind tests)
+* The failure is caused by an existing part of the lc-coreutils, which is unmodified from the upstream repository
+ (this can be observed, if modified, by copying the current git branch, then checking out the file from the upstream HEAD)
+* The failure is not fixed by any modifications, in which case, rather than reporting the failure as an issue, you are encouraged
+ to pull request both the test and the fix.
+* An issue filed links to the code used to test the behaviour. 
+* The failure is not specific to an environment that may not support the documented behaviour (for example, hard links on a FAT32 filesystem)
 
 ## Copyright
 

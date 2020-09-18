@@ -77,6 +77,30 @@ if(LCNIX_COREUTILS_RUNTESTS)
     enable_testing()
 endif()
 
+set(LCNIX_COREUTILS_SANITIZE "" CACHE STRING "Enables Sanitizers on builds")
+
+if(LCNIX_COREUTILS_SANITIZE)
+    if(NOT _LCNIX_COREUTILS_TESTED_SANITIZERS STREQUAL LCNIX_COREUTILS_SANITIZE)
+        try_compile(
+            _LCNIX_TEST_SANITIZERS_RESULT
+            ${CMAKE_CURRENT_BINARY_DIR}/sanitizers-test
+            ${CMAKE_CURRENT_SOURCE_DIR}/try_compile.c
+            COMPILE_DEFINITIONS "-fsanitize=${LCNIX_COREUTILS_SANITIZE}"
+            LINK_OPTIONS "-fsanitize=${LCNIX_COREUTILS_SANITIZE}"
+        )
+        if(NOT _LCNIX_TEST_SANITIZERS_RESULT)
+            message(FATAL_ERROR "Requested sanitizer ${LCNIX_COREUTILS_SANITIZE} did not compile")
+        endif()
+        set(_LCNIX_COREUTILS_TESTED_SANITIZERS ${LCNIX_COREUTILS_SANITIZE} CACHE INTERNAL "")
+    endif()
+    if(LCNIX_COREUTILS_VALGRIND_TESTS)
+        message(WARNING "Valgrind tests may not operate correctly when built with sanitizers")
+    endif()
+    message(STATUS "Building with the sanitizer ${LCNIX_COREUTILS_SANITIZE}")
+    add_compile_options("$<$<NOT:$<CONFIG:Release>>:-fsanitize=${LCNIX_COREUTILS_SANITIZE}>")
+    add_link_options("$<$<NOT:$<CONFIG:Release>>:-fsanitize=${LCNIX_COREUTILS_SANITIZE}>")
+endif()
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/chmod-parse)
 add_subdirectory(chmod-parse)

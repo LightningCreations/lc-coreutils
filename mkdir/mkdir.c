@@ -46,7 +46,7 @@ int main(int argc,char** argv){
                 if(verbose)
                     printf("Created directory: %s\n",arg);
             }else{
-                char* arg_copy = calloc(strlen(arg)+1,1);
+                char* arg_copy = calloc(strlen(arg)+2,1);
                 char* c = strtok(arg,"/");
                 int dir_fd;
                 if(strcmp(c,"")==0) {
