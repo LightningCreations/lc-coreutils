@@ -101,6 +101,21 @@ if(LCNIX_COREUTILS_SANITIZE)
     add_link_options("$<$<NOT:$<CONFIG:Release>>:-fsanitize=${LCNIX_COREUTILS_SANITIZE}>")
 endif()
 
+if(NOT DEFINED _LCNIX_COREUTILS_HAS_GNU_ERROR_FN)
+    try_compile(
+        _LCNIX_COREUTILS_CHECK_GNU_ERROR
+        ${CMAKE_CURRENT_BINARY_DIR}/gnu-error
+        ${CMAKE_CURRENT_SOURCE_DIR}/error.c
+    )
+    set(_LCNIX_COREUTILS_HAS_GNU_ERROR_FN ${_LCNIX_COREUTILS_CHECK_GNU_ERROR} CACHE INTERNAL "")
+endif()
+
+if(NOT _LCNIX_COREUTILS_HAS_GNU_ERROR_FN)
+    add_subdirectory(error)
+    link_libraries(error)
+endif()
+
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/chmod-parse)
 add_subdirectory(chmod-parse)
@@ -108,6 +123,8 @@ add_subdirectory(chmod-parse)
 add_library(lc-coreutils-version INTERFACE)
 
 target_sources(lc-coreutils-version INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+
+link_libraries(lc-coreutils-version)
 
 foreach(coreutil ${LCNIX_ENABLE_COREUTILS})
     message(STATUS "LCnix Coreutils: Building ${coreutil}")
