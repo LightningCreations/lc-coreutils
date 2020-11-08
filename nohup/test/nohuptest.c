@@ -45,9 +45,13 @@ int main(int argc,char** argv){
         pid_t code = waitpid(pid,&status,0);
         if(code<0)
             return -1;
-        else if(code>0)
-            return status;
-        else
+        else if(code>0){
+            if(WIFEXITED(status))
+                return WEXITSTATUS(status);
+            else
+                return 1;
+            
+        }else
             return 0;
     }
 }
