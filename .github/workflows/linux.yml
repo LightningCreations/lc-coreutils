@@ -23,7 +23,6 @@ jobs:
         cc: clang # optional
         # C++ Compiler for toolchain
         cxx: clang++ # optional
-        update-submodules: true
         parallel: 8
         build-type: release 
         build-dir: ${{runner.workspace}}/build-clang
@@ -46,7 +45,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: release 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
@@ -69,7 +67,6 @@ jobs:
         cc: clang # optional
         # C++ Compiler for toolchain
         cxx: clang++ # optional
-        update-submodules: true
         parallel: 8
         build-type: debug 
         build-dir: ${{runner.workspace}}/build-clang
@@ -92,7 +89,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: debug 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
@@ -115,7 +111,6 @@ jobs:
         cc: clang # optional
         # C++ Compiler for toolchain
         cxx: clang++ # optional
-        update-submodules: true
         parallel: 8
         build-type: minsizerel 
         build-dir: ${{runner.workspace}}/build-clang
@@ -138,7 +133,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: minsizerel 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
@@ -161,7 +155,6 @@ jobs:
         cc: clang # optional
         # C++ Compiler for toolchain
         cxx: clang++ # optional
-        update-submodules: true
         parallel: 8
         build-type: relwithdebinfo 
         build-dir: ${{runner.workspace}}/build-clang
@@ -184,7 +177,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: relwithdebinfo 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
@@ -205,7 +197,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: debug 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
@@ -226,7 +217,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: debug 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
@@ -247,7 +237,6 @@ jobs:
         cc: gcc # optional
         # C++ Compiler for toolchain
         cxx: g++ # optional
-        update-submodules: true
         build-type: debug 
         parallel: 8
         build-dir: ${{runner.workspace}}/build-gcc
