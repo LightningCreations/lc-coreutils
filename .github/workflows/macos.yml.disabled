@@ -13,7 +13,7 @@ jobs:
       with:
         submodules: true 
     - name: Clang Build
-      uses: ashutoshvarma/action-cmake-build@v1
+      uses: LightningCreations/action-cmake-build@v1.2
       with:
         # C Compiler for toolchain
         cc: clang # optional
@@ -33,7 +33,7 @@ jobs:
       with:
         submodules: true 
     - name: Clang Build
-      uses: ashutoshvarma/action-cmake-build@v1
+      uses: LightningCreations/action-cmake-build@v1.2
       with:
         # C Compiler for toolchain
         cc: clang # optional
@@ -55,7 +55,7 @@ jobs:
     - name: Install Dependencies
       run: sudo apt install -y valgrind
     - name: Clang Build
-      uses: ashutoshvarma/action-cmake-build@v1
+      uses: LightningCreations/action-cmake-build@v1.2
       with:
         # C Compiler for toolchain
         cc: clang # optional
@@ -75,7 +75,7 @@ jobs:
       with:
         submodules: true 
     - name: Clang Build
-      uses: ashutoshvarma/action-cmake-build@v1
+      uses: LightningCreations/action-cmake-build@v1.2
       with:
         # C Compiler for toolchain
         cc: clang # optional
