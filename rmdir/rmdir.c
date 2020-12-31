@@ -25,7 +25,7 @@ int main(int argc,char** argv){
                         fprintf(stderr,"Removed File %s",opt);
                     if(parents){
                         char* sh;
-                        while((sh=memrchr(opt,'/',strlen(opt)))&&sh!=opt){
+                        while((sh=strrchr(opt,'/'))&&sh!=opt){
                             *sh = 0;
                             if(rmdir(opt)<0){
                                 if(!((errno==EEXIST||errno==ENOTEMPTY)&&nofail_nonempty))
