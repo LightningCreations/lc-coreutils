@@ -73,7 +73,7 @@ int main(int argc,char** argv){
         char* n = basename(*argv);
         int i = strlen(n);
         if(i>=suffix_len){
-            if(strcmp(n+(i-suffix_len),suffix))
+            if(strcmp(n+(i-suffix_len),suffix)==0)
                 n[i-suffix_len] = '\0';
         }
         printf("%s%c",n,sep);
@@ -81,7 +81,7 @@ int main(int argc,char** argv){
         char* n = basename(*argv);
         int i = strlen(n);
         if(i>=suffix_len){
-            if(strcmp(n+(i-suffix_len),suffix))
+            if(strcmp(n+(i-suffix_len),suffix)==0)
                 n[i-suffix_len] = '\0';
         }
         printf("%s%c",n,sep);
