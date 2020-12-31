@@ -2,6 +2,9 @@
 add_test(NAME basename-matches-prgname
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/basename-matches-prgname.sh $<TARGET_FILE:basename>)
 
+        add_test(NAME basename-suffix
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/basename-suffix.sh $<TARGET_FILE:basename>)
+        
 add_test(NAME basename-doesnt-segfault
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/basename-doesnt-segfault.sh $<TARGET_FILE:basename>)
 
