@@ -4,6 +4,7 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode-long)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-mode-suid)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-parents)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-parents-abs)
 
 add_test(NAME mkdir
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir.sh $<TARGET_FILE:mkdir>
@@ -24,3 +25,7 @@ add_test(NAME mkdir-mode-suid
 add_test(NAME mkdir-parents
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir-parents.sh $<TARGET_FILE:mkdir>
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-parents)
+
+add_test(NAME mkdir-parents-abs
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-mkdir-parents-abs.sh $<TARGET_FILE:mkdir>
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test-mkdir-parents-abs)

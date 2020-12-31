@@ -47,12 +47,15 @@ int main(int argc,char** argv){
                     printf("Created directory: %s\n",arg);
             }else{
                 char* arg_copy = calloc(strlen(arg)+2,1);
-                char* c = strtok(arg,"/");
                 int dir_fd;
-                if(strcmp(c,"")==0) {
+                if(arg[0]=='/') {
                     dir_fd = open("/", O_RDONLY|O_DIRECTORY);
+                    strcat(arg_copy,"/");
                 }else
                     dir_fd = AT_FDCWD;
+                
+                char* c = strtok(arg,"/");
+                
                 if(dir_fd==-1)
                     error(1,errno,"Could not stat search base");
                 do{
