@@ -29,7 +29,7 @@ The following library is provided:
 Additionally, all coreutils install with appropriate man pages,
  if the help2man program is available in the host, and they are not disabled.
 
-[1]: All of these programs are built as aliases of `hashfile`. 
+[1]: All of these programs are built as aliases of `hashfile`. As a note, these programs require a C++ library to be available at boot.
 
 
 ## Building with cmake
