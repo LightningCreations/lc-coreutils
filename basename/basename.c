@@ -24,7 +24,7 @@ int main(int argc,char** argv){
     _Bool all = 0;
     _Bool accept_suffix = 1;
     if(!*argv) {
-        printf(HELP, prg_name);
+        printf(HELP, prg_name,prg_name);
         return 1;
     }else while(**argv=='-'){
         accept_suffix = 0;
@@ -54,8 +54,17 @@ int main(int argc,char** argv){
         }else if(strncmp(*argv,"--suffix=",9)==0){
             suffix = (*argv)+9;
             all = 1;
-        }else if(strcmp(*argv,"--multiple")==0)
+        }else if(strcmp(*argv,"--multiple")==0){
             all = 1;
+        }else if(strcmp(*argv,"--")==0){
+            argv++;
+            break;
+        }else
+        {
+            printf(HELP, prg_name,prg_name);
+            return 1;
+        }
+        
         argv++;
         if(!*argv) {
             printf(HELP, prg_name,prg_name);
