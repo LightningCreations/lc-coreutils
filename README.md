@@ -4,6 +4,8 @@ A reimplementation of the GNU Coreutils by Lightning Creations.
 The LC-Coreutils provide various utility programs for use on linux and other POSIX operating systems. 
 
 The following coreutils are implemented and tested:
+
+
 * true
 * false
 * echo
@@ -17,6 +19,9 @@ The following coreutils are implemented and tested:
 * mknod
 * chmod
 * arch
+* unlink
+* rmdir
+* link
 
 The following additional coreutils are implemented and tested, but are not provided in GNU coreutils:
 * hashfile: A generic driver for the md5sum, sha1sum, etc.
@@ -29,8 +34,7 @@ The following library is provided:
 Additionally, all coreutils install with appropriate man pages,
  if the help2man program is available in the host, and they are not disabled.
 
-[1]: All of these programs are built as aliases of `hashfile`. As a note, these programs require a C++ library to be available at boot.
-
+[1]: All of these programs are built as aliases of `hashfile`. In the future, a configuration option would be provided to provide renameable versions. As a note, these programs require a C++ library to be available at boot.
 
 ## Building with cmake
 
@@ -103,8 +107,7 @@ Please indicate the which test(s) failed, and any additional information
  Also include information about your system, IE. which linux distro and version.
  
  
-The tests are run by CI, so failures should be rare, 
- but it is still recommended that you run the test suite
+The tests are run by CI, so failures should be rare, but it is still recommended that you run the test suite
  (especially if succesfully building on an unsupported or untested platform).
 
 
@@ -113,7 +116,13 @@ Valgrind tests are generally not necessary to run, as they are run in CI, and ar
 
 ### Running tests with sanitizers
 
-You can build and run 
+You can build and run lc-coreutils, as well as all tests, with any sanitizer supported by your host C and C++ compiler, by providing it in the cmake variable `LCNIX_ENABLE_SANITIZER`. 
+
+All sanitizers are supported, and the utilities should pass all test cases when built with sanitizers. 
+
+When reporting a Test Suite failure caused by a sanitizer, indicate which sanitizer is enabled and which compiler.
+
+CI builds and test with the `undefined`, `address`, and `memory` sanitizers. 
 
 ## Hacking/Modifying lc-coreutils
 
@@ -125,17 +134,19 @@ In all cases, you are encouraged to add test cases for anything you implement.
 Before reporting a test suite failure in a modified branch,
  ensure that it is reproducible on a clean (unmodified) clone of lc-coreutils.
 
-If the test suite failure is caused by a test you add, which tests an existing behaviour of lc-coreutils,
+If the test suite failure is caused by a test added by you, which tests an existing behaviour of lc-coreutils,
  instead ensure the following: 
 * The test is either of behaviour mandated by POSIX or the Linux Standards Base, or is a well-defined feature of
- GNU Coreutils, or otherwise provided by lc-coreutils (with ascending order of priority),
- or tests for memory errors (such as valgrind tests)
+ GNU Coreutils, or otherwise provided by lc-coreutils (with ascending order of priority), or tests for memory errors (such as valgrind tests)
 * The failure is caused by an existing part of the lc-coreutils, which is unmodified from the upstream repository
  (this can be observed, if modified, by copying the current git branch, then checking out the file from the upstream HEAD)
-* The failure is not fixed by any modifications, in which case, rather than reporting the failure as an issue, you are encouraged
- to pull request both the test and the fix.
 * An issue filed links to the code used to test the behaviour. 
 * The failure is not specific to an environment that may not support the documented behaviour (for example, hard links on a FAT32 filesystem)
+* If a failure is fixed by a modification made by you, you are encouraged to file a pull request with the test and the modification together. You should still file a separate issue with the test, 
+
+Test Suite Requirements:
+* Each test in a test suite in the coreutil shall depend **only** on that utility from lc-coreutils. This is to avoid test failures that are caused by a defect in a different program (as well as to allow users to choose the utilities built by this package without breaking the test suite). 
+* The test suite may assume the existence, and compliance, of any tool defined by posix, including those for which a supplementary program is built by this package. In the latter case, the test suite MUST use the program provided by the host system, not the utility built by this package. 
 
 ## Copyright
 
