@@ -131,7 +131,9 @@ int main(int argc,char** argv){
             }else {
                 if(*opt=='-'){
                     opt++;
-                    if(strcmp(opt,"binary")==0)
+                    if(strlen(opt)==0)
+                        done_opts = true;
+                    else if(strcmp(opt,"binary")==0)
                         sp = "*";
                     else if(strcmp(opt,"zero")==0) {
                         l_sep = 0;

@@ -43,7 +43,11 @@ int main(int argc,char** argv){
                 error(1,errno,"Invalid mode specified %s",arg);
         }else if(*arg=='-'){
             arg++;
-            if(strcmp(arg,"version")==0){
+            if(!*arg){
+                argv++;
+                break;
+            }
+            else if(strcmp(arg,"version")==0){
                 printf(VERSION,"mknod");
                 return 0;
             }else if(strcmp(arg,"help")==0){

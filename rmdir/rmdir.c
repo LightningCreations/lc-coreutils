@@ -48,7 +48,9 @@ int main(int argc,char** argv){
                         parents = 2;
                     else
                         error(1,0,"Unknown Option -%c",*opt);
-            }else if(strcmp(opt,"--version")==0){
+            }else if(strcmp(opt,"--")==0)
+                opts_done = 1;
+            else if(strcmp(opt,"--version")==0){
                 printf(VERSION,"rmdir");
                 return 0;
             }else if(strcmp(opt,"--help")==0){

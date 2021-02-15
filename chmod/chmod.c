@@ -136,7 +136,10 @@ int main(int argc,char** argv){
         arg++;
         if(*arg=='-'){
             arg++;
-            if(strcmp(arg,"changes")==0)
+            if(strlen(arg)==0){
+                argv++;
+                break;
+            }else if(strcmp(arg,"changes")==0)
                 diag_mode = Changes;
             else if(strcmp(arg,"quite")==0||strcmp(arg,"silent")==0)
                 diag_mode = Silent;

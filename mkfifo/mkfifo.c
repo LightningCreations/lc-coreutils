@@ -42,7 +42,8 @@ int main(int argc,char** argv){
                     mode = parse_mode(arg,0,0,um);
                     if(mode<0)
                         error(1,errno,"Invalid mode specified %s",arg);
-                }
+                }else if(!*arg)
+                    done_opts = 1;
             }else if(*arg=='m'){
                 if(!argv[1])
                     error(1,0,HELP,prg_name);

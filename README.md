@@ -82,7 +82,6 @@ See the list of implemented coreutils above
  Instead specify them in `LCNIX_COREUTILS_HASHSUM_ALIASES` instead. 
 
 
-
 ## Running tests
 
 lc-coreutils comes with its own test-suite using ctest. 
