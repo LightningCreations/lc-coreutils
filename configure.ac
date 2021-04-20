@@ -1,0 +1,5 @@
+AC_INIT([lc-coreutils 1.0])
+
+AC_PROG_CC
+AC_PROG_INSTALL
+

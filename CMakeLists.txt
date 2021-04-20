@@ -18,6 +18,8 @@ else()
     find_program(HELP2MAN help2man HINTS /usr/bin /usr/local/bin)
 endif()
 
+option(LCNIX_COREUTILS_MAN_PAGES "Build Man pages if help2man is available" OFF)
+
 function(add_manual prg description section)
     if(NOT TARGET ${prg})
         message(FATAL_ERROR "${prg} is not an executable target")
@@ -26,7 +28,7 @@ function(add_manual prg description section)
     if(NOT ${type} STREQUAL "EXECUTABLE")
         message(FATAL_ERROR "${prg} is not an executable target")
     endif()
-    if(NOT LCNIX_COREUTILS_MAN_PAGES AND NOT ${HELP2MAN} STREQUAL "HELP2MAN-NOTFOUND")
+    if(LCNIX_COREUTILS_MAN_PAGES AND NOT ${HELP2MAN} STREQUAL "HELP2MAN-NOTFOUND")
         add_custom_command(
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${prg}.${section}
             COMMAND ${HELP2MAN} --section=${section}
