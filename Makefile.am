@@ -1,0 +1,1 @@
+SUBDIRS=@error@ chmod-parse @coreutils@

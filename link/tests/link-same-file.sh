@@ -8,11 +8,13 @@ do
   code=$?
   if [ $code -ne 1 ]
   then
+    rm -f a${i}
     exit $code
   fi
 
   if [ ! \( ${test_dir}/a${i} -ef a${i} \) ]
   then
+    rm -f a${i}
     exit 1
   fi
   rm -f a${i}
