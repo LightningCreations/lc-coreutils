@@ -20,7 +20,8 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
         mode = strtol(md,NULL,8) | (dir?mode&06000:0);
     else
     {
-        char *opt = strtok(md, ",");
+        char* save = NULL;
+        char *opt = strtok_r(md, ",",&save);
         while(opt) {
             if (strlen(opt) < 2){
                 errno = EINVAL;
@@ -110,7 +111,7 @@ mode_t parse_mode(const char* i_md,mode_t mode,_Bool dir,mode_t umask){
                     }
                 }
             }while(*opt);
-            opt = strtok(NULL, ",");
+            opt = strtok_r(NULL, ",",save);
         }
     }
     free(md);
